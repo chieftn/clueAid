@@ -2,10 +2,9 @@ import './styles/main.scss';
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-
-import { Game } from "./components/Game";
+import {App} from "./components/App";
 
 ReactDOM.render(
-    <Game compiler="TypeScript" framework="React" />,
+    <App />,
     document.getElementById("example")
 );

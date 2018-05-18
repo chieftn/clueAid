@@ -28,13 +28,21 @@ export class Game extends React.Component<GameProps, GameState> {
 
         this.state = {
             view : views.introduction,
-            cards: [
-            ],
-            players: [
-                { name: "Me", isUser: true, cards: []}
-            ] ,
+            cards: this.generateCardList(),
+            players: this.generatePlayerList(),
             suspicions: []
         }
+    }
+
+    generatePlayerList(): Player[] {
+        return [ { name: "Me", isUser: true, cards: []} ];
+    }
+
+    generateCardList(): Card[] {
+        return [
+
+
+        ];
     }
 
     switchToGameSetup() {
@@ -45,6 +53,13 @@ export class Game extends React.Component<GameProps, GameState> {
         this.setState({view: views.gameStatus});
     }
 
+    addPlayer(name: string) {
+           var players = this.state.players;
+           let newPlayers = [...players, { name: name, isUser: false, cards: [] }]
+
+           this.setState({ players: newPlayers});
+    }
+
     render() {
         
         let view = null;
@@ -53,7 +68,11 @@ export class Game extends React.Component<GameProps, GameState> {
                 view = <Introduction switchToGameSetup={this.switchToGameSetup.bind(this)}></Introduction>;
                 break;
             case views.gameSetup: 
-                view = <GameSetup switchToGameStatus={this.switchToGameStatus.bind(this)}></GameSetup>
+                view = <GameSetup 
+                            addPlayer={this.addPlayer.bind(this)}            
+                            switchToGameStatus={this.switchToGameStatus.bind(this)} 
+                            players={this.state.players}>
+                        </GameSetup>
                 break;
             case views.suspicion: 
                 view = <h2>hi</h2>;
@@ -61,7 +80,9 @@ export class Game extends React.Component<GameProps, GameState> {
         }
 
         return <div className="mainContainer">
-                    <div className="mainHeader">ClueAid</div>
+                    <div className="mainHeader headerBar">
+                        <div className="headerTitle">ClueAid</div>
+                    </div>
                     <div className="mainContent">
                         {view}
                     </div>
