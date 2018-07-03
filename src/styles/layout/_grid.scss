@@ -16,6 +16,7 @@
 
 .mainContent {
     grid-area: content;
+    overflow-x: auto;
 }
 
 .mainFooter {
