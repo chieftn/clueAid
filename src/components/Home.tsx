@@ -8,11 +8,6 @@ export class Home extends React.Component<HomeProps, {}> {
     }
 
     render() {
-        return <div>Hello World
-<button type="button" className="btn btn-default">
-  <span className="glyphicon glyphicon-star" aria-hidden="true"></span>
-</button>
-
-        </div>
+        return <div>Hello World</div>
     }
 }

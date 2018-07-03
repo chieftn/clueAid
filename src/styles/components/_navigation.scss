@@ -1,7 +1,25 @@
 .navigationBar {
     background-color: $theme-dark;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.navigationBarItem {
+    margin-bottom: 10px;
+}
+
+.navigationBar a {
+    background: transparent;
+    color: $theme-dark-text;
+    text-decoration: none;
+    transition: color .2s;
 }
 
 .navigationContent {
     color: $theme-dark-text;
+}
+
+.navigationIcon {
+    color: $theme-dark-icon;
+    font-size: 20px;
 }

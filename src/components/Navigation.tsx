@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {Link} from "react-router-dom";
-import {HomeLink} from "./HomeLink";
 
 export interface NavigationProps {}
 export class Navigation extends React.Component<NavigationProps, {}> {
@@ -11,16 +10,15 @@ export class Navigation extends React.Component<NavigationProps, {}> {
 
     render() {
         return <div className="mainNavigation navigationBar">
-        <button type="button" className="btn btn-default">
-  <span className="glyphicon glyphicon-star" aria-hidden="true"></span>
-</button>
             <nav>
-                
-                
+                <div className="navigationBarItem">
+                    <Link to='/home' title="Home">
+                        <span className="glyphicon glyphicon-home navigationIcon" aria-hidden="true"></span>
+                    </Link>
+                </div>
                 <div>
-                    <Link to='/gamesetup'>
- 
-                        New Game
+                    <Link to='/gamesetup' title="Start Game">
+                        <span className="glyphicon glyphicon-plus navigationIcon" aria-hidden="true"></span>
                     </Link>
                 </div>
             </nav>
