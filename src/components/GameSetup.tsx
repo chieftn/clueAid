@@ -13,7 +13,12 @@ export class GameSetup extends React.Component<GameSetupProps, {}> {
     }
 
     private getValidationState(): any {
-        return null;
+       
+    }
+
+    private createGame(): void {
+        const { store } = this.context;
+        store.dispatch("GAME_ADD");
     }
 
     render() {
@@ -47,7 +52,7 @@ export class GameSetup extends React.Component<GameSetupProps, {}> {
 
                             </div>
                             <div className="gameSetupSection">
-                                <Button type="submit">Submit</Button>
+                                <Button type="submit" onClick={()=>this.createGame()}>Submit</Button>
                             </div>
 
                         </div>
