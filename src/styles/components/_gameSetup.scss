@@ -20,3 +20,32 @@
     font-size:25px;
     color:$theme-dark-highlight;
 }
+
+.gameSetupCards {
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    margin-bottom: 10px;
+}
+
+.gameSetupCard {
+    margin-left:10px;
+    margin-right: 10px;
+    margin-top:10px;
+    margin-bottom: 10px;
+    padding: 20px;
+    border-color: gray;
+    border-style: solid;
+    border-width: 1px;
+    cursor:pointer;
+}
+
+.gameSetupCardSelected {
+    @extend .gameSetupCard;
+    background-color: gray;
+}
+
+.gameSetupPlayerButton {
+    margin-left: 2px;
+    margin-right: 2px;
+}
