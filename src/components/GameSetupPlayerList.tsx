@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button } from "react-bootstrap";
+import { Button, ButtonToolbar } from "react-bootstrap";
 import { FormControl } from "react-bootstrap";
 import { FormGroup } from "react-bootstrap";
 import { InputGroup } from "react-bootstrap";
@@ -8,6 +8,7 @@ import { Player } from "../model/Player";
 
 export interface GameSetupPlayerListProps {
     players: Player[];
+    invalidPlayers: Player[];
     addPlayer(): void;
     changePlayer(index: number, player: Player): void;
     removePlayer(playerIndex: number): void;
@@ -24,12 +25,11 @@ export class GameSetupPlayerList extends React.Component<GameSetupPlayerListProp
     private generateNameField(index: number, player: Player, playerCount: number): JSX.Element {
 
         return (
-            <FormGroup controlId="nameLabel" key={index}>
+            <FormGroup controlId={"nameLabel" + index} key={index} validationState={this.props.invalidPlayers.indexOf(player) >= 0 ? "error": null}>
                 <InputGroup>
                     <FormControl
-                       
                         type="text"
-                        placeholder="player name"
+                        placeholder="enter name"
                         value={player.name}
                         disabled={player.isUser}
                         onChange={(e: any)=> this.props.changePlayer(

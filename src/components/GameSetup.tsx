@@ -1,6 +1,7 @@
 import * as gameActions from "../actions/gameActions";
 import * as React from 'react';
 import * as PropTypes from "prop-Types";
+import { Alert } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { Card, CardFactory } from "../model/Card";
 import { GameSetupCardList } from "./GameSetupCardList";
@@ -11,6 +12,12 @@ export interface GameSetupProps {}
 export interface GameSetupState {
     players: Player[];
     cards: Card[];
+    validations: {
+        show: boolean;
+        allCardsSelected: boolean;
+        noCardsSelected: boolean;
+        invalidPlayers: Player[];
+    }
 }
 
 export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
@@ -26,20 +33,34 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                 { name: "Me", isUser: true},
                 { name: "", isUser: false}
             ],
-            cards: CardFactory()
+            cards: CardFactory(),
+            validations: {
+                show: false,
+                allCardsSelected: false,
+                noCardsSelected: true,
+                invalidPlayers: []
+            }
         }
     }
 
-    private getValidationState(): any {
-       
+    private submit(): void {
+        this.setState({
+            validations: {
+                show: true,
+                allCardsSelected: false,
+                noCardsSelected: true,
+                invalidPlayers: [this.state.players[0]]
+            }
+        });
+
+
+
     }
 
     private createGame(): void {
         let {store} = this.context;
         store.dispatch(gameActions.addGame);
     }
-
-    
 
     private toggleCardSelection(cardName: string): void {
 
@@ -99,10 +120,44 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
         this.setState({players: players});
     }
 
+    private dismissValidationAlert(): void {
+        this.setState({
+            validations: {
+                show: false,
+                allCardsSelected: this.state.validations.allCardsSelected,
+                noCardsSelected: this.state.validations.noCardsSelected,
+                invalidPlayers: [...this.state.validations.invalidPlayers]
+            }
+        });
+
+    }
+
     render() {
 
        return( 
             <div className="gameSetup">
+                {
+                    this.state.validations.show &&
+                    this.state.validations.noCardsSelected &&
+                     <Alert bsStyle="danger" onDismiss={()=> this.dismissValidationAlert()}>
+                     <h4>Uh oh!</h4>
+                     <p>
+                       Please tell me what cards you have.
+                     </p>
+                   </Alert>
+                }
+
+                  {
+                    this.state.validations.show &&
+                    this.state.validations.allCardsSelected &&
+                     <Alert bsStyle="danger" onDismiss={()=> this.dismissValidationAlert()}>>
+                     <h4>Uh oh!</h4>
+                     <p>
+                       You appear to have all the cards.
+                     </p>
+                   </Alert>
+                }
+                
                 <form>
                     <div className="gameSetupForm">
                         
@@ -110,6 +165,7 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                             <div className="gameSetupSectionHeader">Who's playing (and in what order)?</div>
                             <GameSetupPlayerList 
                                 players={this.state.players} 
+                                invalidPlayers={this.state.validations.invalidPlayers}
                                 addPlayer={()=>this.addPlayer()} 
                                 changePlayer={(index, player)=>this.changePlayer(index, player)}
                                 removePlayer={(index) => this.removePlayer(index)} 
@@ -122,12 +178,11 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                             <div className="gameSetupSectionHeader">What cards do you have?</div>
                             <GameSetupCardList toggleCardSelection={value=>this.toggleCardSelection(value)} cards={this.state.cards} />
                         </div>
-
-                        <div className="gameSetupSection">
-                            <Button bsStyle="primary" bsSize="large" onClick={()=>this.createGame()}>Submit</Button>
-                        </div>
                     </div>
-
+                    
+                    <div className="gameSetupSection">
+                        <Button bsStyle="primary" bsSize="large" onClick={()=>this.submit()}>Submit</Button>
+                    </div>
                 </form>
             </div>)
     }
