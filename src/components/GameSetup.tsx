@@ -13,6 +13,7 @@ export interface GameSetupValidationState {
     show: boolean;
     allCardsSelected: boolean;
     noCardsSelected: boolean;
+    insufficientPlayers: boolean;
     invalidPlayers: Player[];
 }
 export interface GameSetupState {
@@ -39,6 +40,7 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                 show: false,
                 allCardsSelected: false,
                 noCardsSelected: true,
+                insufficientPlayers: true,
                 invalidPlayers: []
             }
         }
@@ -68,15 +70,20 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
             selectedCards.length === this.state.cards.length ||
             this.allCardsOfTypeSelected(selectedCards);
 
+        let insufficientPlayers = this.state.players.length < 3;
+
         let showValidation = 
             invalidPlayers.length > 0 ||
             noCardsSelected ||
-            allCardsSelected;
+            allCardsSelected || 
+            insufficientPlayers;
+
 
         return {
             show: showValidation,
             allCardsSelected: allCardsSelected,
             noCardsSelected: noCardsSelected,
+            insufficientPlayers: insufficientPlayers,
             invalidPlayers: invalidPlayers
         }
     }
@@ -180,6 +187,7 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                 show: false,
                 allCardsSelected: this.state.validations.allCardsSelected,
                 noCardsSelected: this.state.validations.noCardsSelected,
+                insufficientPlayers: this.state.validations.insufficientPlayers,
                 invalidPlayers: [...this.state.validations.invalidPlayers]
             }
         });
@@ -223,7 +231,16 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                    </Alert>
                 }
 
-
+                {
+                    this.state.validations.show &&
+                    this.state.validations.insufficientPlayers &&
+                     <Alert bsStyle="danger" onDismiss={()=> this.dismissValidationAlert()}>
+                     <h4>Uh oh!</h4>
+                     <p>
+                       You might need to add players (or make more friends).
+                     </p>
+                   </Alert>
+                }
                 
                 <form>
                     <div className="gameSetupForm">
