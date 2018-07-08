@@ -191,7 +191,6 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                 invalidPlayers: [...this.state.validations.invalidPlayers]
             }
         });
-
     }
 
     render() {

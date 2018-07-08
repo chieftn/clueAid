@@ -38,15 +38,17 @@ export class GameSetupPlayerList extends React.Component<GameSetupPlayerListProp
                                 isUser: player.isUser}
                             )}
                     />
-                    <Button className="gameSetupPlayerButton" disabled={index == 0} onClick={()=>this.props.movePlayerUp(index)}>
+                   
+                    <Button componentClass={InputGroup.Button} disabled={index == 0} onClick={()=>this.props.movePlayerUp(index)}>
                         <Glyphicon glyph="chevron-up" />
                     </Button>
-                    <Button className="gameSetupPlayerButton" disabled={index == playerCount} onClick={()=>this.props.movePlayerDown(index)}>
+                    <Button componentClass={InputGroup.Button} disabled={index == playerCount} onClick={()=>this.props.movePlayerDown(index)}>
                         <Glyphicon glyph="chevron-down" />
                     </Button>
-                    <Button className="gameSetupPlayerButton" disabled={player.isUser} onClick={()=>this.props.removePlayer(index)} bsStyle="danger">
+                    <Button componentClass={InputGroup.Button} disabled={player.isUser} onClick={()=>this.props.removePlayer(index)} bsStyle="danger">
                         <Glyphicon glyph="remove" />
                     </Button>
+                    
                 </InputGroup>
             </FormGroup>
         );
