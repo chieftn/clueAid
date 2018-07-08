@@ -3,21 +3,22 @@ import * as React from 'react';
 import * as PropTypes from "prop-Types";
 import { Alert } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import { Card, CardFactory } from "../model/Card";
+import { Card, CardFactory, CardType } from "../model/Card";
 import { GameSetupCardList } from "./GameSetupCardList";
 import { GameSetupPlayerList } from "./GameSetupPlayerList";
 import {Player } from "../model/Player";
 
 export interface GameSetupProps {}
+export interface GameSetupValidationState {
+    show: boolean;
+    allCardsSelected: boolean;
+    noCardsSelected: boolean;
+    invalidPlayers: Player[];
+}
 export interface GameSetupState {
     players: Player[];
     cards: Card[];
-    validations: {
-        show: boolean;
-        allCardsSelected: boolean;
-        noCardsSelected: boolean;
-        invalidPlayers: Player[];
-    }
+    validations: GameSetupValidationState;
 }
 
 export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
@@ -44,22 +45,75 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
     }
 
     private submit(): void {
+        
+        let validationState = this.getValidationState();
+        
         this.setState({
-            validations: {
-                show: true,
-                allCardsSelected: false,
-                noCardsSelected: true,
-                invalidPlayers: [this.state.players[0]]
-            }
+            validations: validationState
         });
-
-
-
     }
 
     private createGame(): void {
         let {store} = this.context;
         store.dispatch(gameActions.addGame);
+    }
+
+    private getValidationState(): GameSetupValidationState {
+
+        let invalidPlayers = this.getInvalidPlayers();
+        let selectedCards = this.getSelectedCards();
+
+        let noCardsSelected: boolean = selectedCards.length === 0;
+        let allCardsSelected: boolean =
+            selectedCards.length === this.state.cards.length ||
+            this.allCardsOfTypeSelected(selectedCards);
+
+        let showValidation = 
+            invalidPlayers.length > 0 ||
+            noCardsSelected ||
+            allCardsSelected;
+
+        return {
+            show: showValidation,
+            allCardsSelected: allCardsSelected,
+            noCardsSelected: noCardsSelected,
+            invalidPlayers: invalidPlayers
+        }
+    }
+
+    private allCardsOfTypeSelected(selectedCards: Card[]): boolean {
+
+        let selectedCharacterCards: Card[] = selectedCards.filter((card) => card.type === CardType.Character);
+        let characterCards: Card[] = this.state.cards.filter((card) => card.type === CardType.Character);
+        if (selectedCharacterCards.length === characterCards.length) return true;
+
+        let selectedWeaponCards: Card[] = selectedCards.filter((card) => card.type === CardType.Weapon);
+        let weaponCards: Card[] = this.state.cards.filter((card) => card.type === CardType.Weapon);
+        if (selectedWeaponCards.length === weaponCards.length) return true;
+
+        let selectedRoomCards: Card[] = selectedCards.filter((card) => card.type === CardType.Room);
+        let roomCards: Card[] = this.state.cards.filter((card) => card.type === CardType.Room);
+        if (selectedRoomCards.length === roomCards.length) return true;
+
+        return false;
+    }
+
+    private getSelectedCards(): Card[] {
+
+        const selectedCards = this.state.cards.filter((card) => {
+            return card.owner !== null;
+        })
+
+        return selectedCards;
+    }
+
+    private getInvalidPlayers(): Player[] {
+
+        const invalidPlayers = this.state.players.filter((player) => {
+            return player.name === "";
+        })
+
+        return invalidPlayers;
     }
 
     private toggleCardSelection(cardName: string): void {
@@ -147,16 +201,29 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                    </Alert>
                 }
 
-                  {
+                {
                     this.state.validations.show &&
                     this.state.validations.allCardsSelected &&
-                     <Alert bsStyle="danger" onDismiss={()=> this.dismissValidationAlert()}>>
+                     <Alert bsStyle="danger" onDismiss={()=> this.dismissValidationAlert()}>
                      <h4>Uh oh!</h4>
                      <p>
                        You appear to have all the cards.
                      </p>
                    </Alert>
                 }
+
+                 {
+                    this.state.validations.show &&
+                    this.state.validations.invalidPlayers.length > 0 &&
+                     <Alert bsStyle="danger" onDismiss={()=> this.dismissValidationAlert()}>
+                     <h4>Uh oh!</h4>
+                     <p>
+                       You might need to enter some player names.
+                     </p>
+                   </Alert>
+                }
+
+
                 
                 <form>
                     <div className="gameSetupForm">
