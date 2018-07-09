@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Button } from "react-bootstrap";
 import { Card, CardType } from "../model/Card";
 
 export interface GameSetupCardListProps {
@@ -15,14 +16,14 @@ export class GameSetupCardList extends React.Component<GameSetupCardListProps, {
 
     private generateButton(card: Card): JSX.Element {
 
-        return  <div key={card.name} 
-                    aria-label={card.name} 
-                    role="button"  
-                    tabIndex={0}
-                    onClick={() => this.props.toggleCardSelection(card.name)}
-                    className={!!card.owner ? "gameSetupCardSelected": "gameSetupCard"}>{card.name}</div>;
+        return  <Button 
+                    className="gameSetupCard"
+                    key={card.name}
+                    bsStyle={card.owner === null ? "default" : "info"}
+                    onClick={() => this.props.toggleCardSelection(card.name)}>
+                {card.name}
+            </Button>
     }
-    
 
     render() {
 
