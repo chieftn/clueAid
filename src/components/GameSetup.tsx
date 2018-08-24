@@ -137,30 +137,12 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
         this.setState({cards: cards})
     }
 
-    private addPlayer(): void {
-        let players = [...this.state.players];
-        players.push({
-            name: "",
-            isUser: false
-        });
-        
-        this.setState({ players: players});
-    }
-
     private removePlayer(index: number): void {
         let players = this.state.players.filter((player, playerIndex) => {
             return playerIndex !== index;
         });
 
         this.setState({ players: players});
-    }
-
-    private changePlayer(index: number, player: Player): void {
-        
-        let players = [...this.state.players];
-        players[index] = player;
-
-        this.setState({players: players});
     }
 
     private increaseIndexByOne(index: number): void {
@@ -249,8 +231,8 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                             <GameSetupPlayerList 
                                 players={this.state.players} 
                                 invalidPlayers={this.state.validations.invalidPlayers}
-                                addPlayer={()=>this.addPlayer()} 
-                                changePlayer={(index, player)=>this.changePlayer(index, player)}
+                                addPlayer={this.addPlayer} 
+                                changePlayer={this.changePlayerHandler}
                                 removePlayer={(index) => this.removePlayer(index)} 
                                 movePlayerDown={(index) => this.increaseIndexByOne(index)}
                                 movePlayerUp={(index) => this.decreaseIndexByOne(index)} 
@@ -270,8 +252,25 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
             </div>)
     }
 
+    private addPlayer = (): void => {
+        let players = [...this.state.players];
+        players.push({
+            name: "",
+            isUser: false
+        });
+        
+        this.setState({ players: players});
+    }
+
     private onDismissValidationAlert = (): void => {
         this.dismissValidationAlert();
+    }
+
+    private changePlayerHandler = (index: number, player: Player): void => {
+        let players = [...this.state.players];
+        players[index] = player;
+
+        this.setState({players: players});
     }
 }
 
