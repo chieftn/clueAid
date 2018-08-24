@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { GameSetup } from './GameSetup';
+import { GameTracker } from "./GameTracker";
 import { Home } from './Home';
 import { Switch, Route } from 'react-router-dom'
 
@@ -16,6 +17,7 @@ export class Main extends React.Component<MainProps, {}> {
                 <Route exact path='/' component={Home}/>
                 <Route path="/Home" component={Home}/>
                 <Route path="/GameSetup" component={GameSetup}/>
+                <Route path="/GameTracker" component={GameTracker}/>
             </Switch>
         </div>
     }

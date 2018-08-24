@@ -18,7 +18,5 @@ export class App extends React.Component<AppProps, {}> {
             <Main/>
             <Footer/>
         </div>
-        
-     
     }
 }

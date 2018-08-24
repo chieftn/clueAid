@@ -200,7 +200,7 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                 {
                     this.state.validations.show &&
                     this.state.validations.noCardsSelected &&
-                     <Alert bsStyle="danger" onDismiss={()=> this.dismissValidationAlert()}>
+                     <Alert bsStyle="danger" onDismiss={this.dismissValidationAlert}>
                      <h4>Uh oh!</h4>
                      <p>
                        Please tell me what cards you have.
@@ -211,7 +211,7 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                 {
                     this.state.validations.show &&
                     this.state.validations.allCardsSelected &&
-                     <Alert bsStyle="danger" onDismiss={()=> this.dismissValidationAlert()}>
+                     <Alert bsStyle="danger" onDismiss={this.dismissValidationAlert}>
                      <h4>Uh oh!</h4>
                      <p>
                        You appear to have all the cards.
@@ -222,7 +222,7 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                  {
                     this.state.validations.show &&
                     this.state.validations.invalidPlayers.length > 0 &&
-                     <Alert bsStyle="danger" onDismiss={()=> this.dismissValidationAlert()}>
+                     <Alert bsStyle="danger" onDismiss={this.dismissValidationAlert}>
                      <h4>Uh oh!</h4>
                      <p>
                        You might need to enter some player names.
@@ -233,7 +233,7 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                 {
                     this.state.validations.show &&
                     this.state.validations.insufficientPlayers &&
-                     <Alert bsStyle="danger" onDismiss={()=> this.dismissValidationAlert()}>
+                     <Alert bsStyle="danger" onDismiss={this.onDismissValidationAlert}>
                      <h4>Uh oh!</h4>
                      <p>
                        You might need to add players (or make more friends).
@@ -268,6 +268,10 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                     </div>
                 </form>
             </div>)
+    }
+
+    private onDismissValidationAlert = (): void => {
+        this.dismissValidationAlert();
     }
 }
 
