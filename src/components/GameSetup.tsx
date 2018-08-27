@@ -233,9 +233,9 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                                 invalidPlayers={this.state.validations.invalidPlayers}
                                 addPlayer={this.addPlayer} 
                                 changePlayer={this.changePlayerHandler}
-                                removePlayer={(index) => this.removePlayer(index)} 
-                                movePlayerDown={(index) => this.increaseIndexByOne(index)}
-                                movePlayerUp={(index) => this.decreaseIndexByOne(index)} 
+                                removePlayer={this.removePlayerHandler} 
+                                movePlayerDown={this.movePlayerDownHandler}
+                                movePlayerUp={this.movePlayerUpHandler} 
                                 />
                         </div>
 
@@ -262,15 +262,27 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
         this.setState({ players: players});
     }
 
-    private onDismissValidationAlert = (): void => {
-        this.dismissValidationAlert();
-    }
-
     private changePlayerHandler = (index: number, player: Player): void => {
         let players = [...this.state.players];
         players[index] = player;
 
         this.setState({players: players});
+    }
+
+    private removePlayerHandler = (index: number): void => {
+        this.removePlayer(index);
+    }
+
+    private movePlayerDownHandler = (index: number): void => {
+        this.increaseIndexByOne(index);
+    }
+
+    private movePlayerUpHandler = (index: number): void => {
+        this.decreaseIndexByOne(index);
+    }
+
+    private onDismissValidationAlert = (): void => {
+        this.dismissValidationAlert();
     }
 }
 
