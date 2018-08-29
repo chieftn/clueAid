@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { GameSetup } from './GameSetup';
-import { GameTracker } from "./GameTracker";
+import { GameSetup } from '../gameSetup/GameSetup';
+import { GameTracker } from "../gameTracker/gameTracker";
 import { Home } from './Home';
 import { Switch, Route } from 'react-router-dom'
 

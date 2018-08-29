@@ -2,13 +2,14 @@ import * as React from 'react';
 import * as PropTypes from 'prop-Types';
 import { Alert } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
-import { Game } from '../model/Game';
-import { Card, CardFactory, CardType } from "../model/Card";
-import { GameSetupCardList } from "./GameSetupCardList";
-import { setGameAction } from '../redux/game/actions';
-import { GameSetupPlayerList } from "./GameSetupPlayerList";
-import {Player } from '../model/Player';
-import  store from '../redux/store';
+import { Card } from '../../model/card';
+import { generateDeck } from '../../model/deck';
+import { Game } from '../../model/game';
+import { GameSetupCardList } from './GameSetupCardList';
+import { GameSetupPlayerList } from './GameSetupPlayerList';
+import { Player } from '../../model/Player';
+import { setGameAction } from '../../redux/game/actions';
+import  store from '../../redux/store';
 
 export interface GameSetupProps {}
 export interface GameSetupValidationState {
@@ -20,7 +21,9 @@ export interface GameSetupValidationState {
 }
 export interface GameSetupState {
     players: Player[];
-    cards: Card[];
+    characterCards: Card[];
+    roomCards: Card[];
+    weaponCards: Card[];
     validations: GameSetupValidationState;
 }
 
@@ -32,12 +35,16 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
 
     constructor(props: GameSetupProps) {
         super(props);
+
+        const deck = generateDeck();
         this.state = {
             players: [
                 { name: 'Me', isUser: true},
                 { name: '', isUser: false}
             ],
-            cards: CardFactory(),
+            characterCards: deck.characters,
+            roomCards: deck.rooms,
+            weaponCards: deck.weapons,
             validations: {
                 show: false,
                 allCardsSelected: false,
@@ -54,7 +61,11 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
         if (!validationState.show) {
             const game: Game = {
                 players: this.state.players,
-                cards: this.state.cards,
+                deck: {
+                    characters: this.state.characterCards,
+                    rooms: this.state.roomCards,
+                    weapons: this.state.weaponCards
+                },
                 suspicions: []
             };
 
@@ -69,13 +80,8 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
     private getValidationState(): GameSetupValidationState {
 
         let invalidPlayers = this.getInvalidPlayers();
-        let selectedCards = this.getSelectedCards();
-
-        let noCardsSelected: boolean = selectedCards.length === 0;
-        let allCardsSelected: boolean =
-            selectedCards.length === this.state.cards.length ||
-            this.allCardsOfTypeSelected(selectedCards);
-
+        let noCardsSelected: boolean = this.noCardsSelected()
+        let allCardsSelected: boolean = this.allCardsSelected();
         let insufficientPlayers = this.state.players.length < 3;
 
         let showValidation = 
@@ -94,30 +100,27 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
         }
     }
 
-    private allCardsOfTypeSelected(selectedCards: Card[]): boolean {
+    private allCardsSelected(): boolean {
 
-        let selectedCharacterCards: Card[] = selectedCards.filter((card) => card.type === CardType.Character);
-        let characterCards: Card[] = this.state.cards.filter((card) => card.type === CardType.Character);
-        if (selectedCharacterCards.length === characterCards.length) return true;
+        let selectedCharacters = this.state.characterCards.filter(card => card.owner !== null)
+        if (selectedCharacters.length === this.state.characterCards.length) return true;
 
-        let selectedWeaponCards: Card[] = selectedCards.filter((card) => card.type === CardType.Weapon);
-        let weaponCards: Card[] = this.state.cards.filter((card) => card.type === CardType.Weapon);
-        if (selectedWeaponCards.length === weaponCards.length) return true;
-
-        let selectedRoomCards: Card[] = selectedCards.filter((card) => card.type === CardType.Room);
-        let roomCards: Card[] = this.state.cards.filter((card) => card.type === CardType.Room);
-        if (selectedRoomCards.length === roomCards.length) return true;
+        let selectedRooms = this.state.roomCards.filter(card => card.owner !== null)
+        if (selectedRooms.length === this.state.roomCards.length) return true;
+        
+        let selectedWeapons = this.state.weaponCards.filter(card => card.owner !== null)
+        if (selectedWeapons.length === this.state.weaponCards.length) return true;
 
         return false;
     }
 
-    private getSelectedCards(): Card[] {
+    private noCardsSelected(): boolean {
+        
+        let selectedCharacters = this.state.characterCards.filter(card => card.owner !== null)
+        let selectedRooms = this.state.roomCards.filter(card => card.owner !== null)
+        let selectedWeapons = this.state.weaponCards.filter(card => card.owner !== null)
 
-        const selectedCards = this.state.cards.filter((card) => {
-            return card.owner !== null;
-        })
-
-        return selectedCards;
+        return (selectedCharacters.length === 0 && selectedRooms.length === 0 && selectedWeapons.length === 0);
     }
 
     private getInvalidPlayers(): Player[] {
@@ -127,20 +130,6 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
         })
 
         return invalidPlayers;
-    }
-
-    private toggleCardSelection(cardName: string): void {
-
-        const cards = this.state.cards.map((card) => {
-            if (card.name == cardName) {
-                if (!!card.owner) card.owner = null;
-                else card.owner = this.state.players.filter((player) => player.isUser === true)[0]; 
-            }
-
-            return card;
-        })
-
-        this.setState({cards: cards})
     }
 
     private removePlayer(index: number): void {
@@ -169,17 +158,7 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
         this.setState({players: players});
     }
 
-    private dismissValidationAlert(): void {
-        this.setState({
-            validations: {
-                show: false,
-                allCardsSelected: this.state.validations.allCardsSelected,
-                noCardsSelected: this.state.validations.noCardsSelected,
-                insufficientPlayers: this.state.validations.insufficientPlayers,
-                invalidPlayers: [...this.state.validations.invalidPlayers]
-            }
-        });
-    }
+
 
     render() {
 
@@ -187,45 +166,14 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
             <div className="gameSetup">
                 {
                     this.state.validations.show &&
-                    this.state.validations.noCardsSelected &&
                      <Alert bsStyle="danger" onDismiss={this.dismissValidationAlert}>
                      <h4>Uh oh!</h4>
-                     <p>
-                       Please tell me what cards you have.
-                     </p>
-                   </Alert>
-                }
-
-                {
-                    this.state.validations.show &&
-                    this.state.validations.allCardsSelected &&
-                     <Alert bsStyle="danger" onDismiss={this.dismissValidationAlert}>
-                     <h4>Uh oh!</h4>
-                     <p>
-                       You appear to have all the cards.
-                     </p>
-                   </Alert>
-                }
-
-                 {
-                    this.state.validations.show &&
-                    this.state.validations.invalidPlayers.length > 0 &&
-                     <Alert bsStyle="danger" onDismiss={this.dismissValidationAlert}>
-                     <h4>Uh oh!</h4>
-                     <p>
-                       You might need to enter some player names.
-                     </p>
-                   </Alert>
-                }
-
-                {
-                    this.state.validations.show &&
-                    this.state.validations.insufficientPlayers &&
-                     <Alert bsStyle="danger" onDismiss={this.onDismissValidationAlert}>
-                     <h4>Uh oh!</h4>
-                     <p>
-                       You might need to add players (or make more friends).
-                     </p>
+                     <ul>
+                         {this.state.validations.noCardsSelected && <li>Please tell me what cards you have.</li>}
+                         {this.state.validations.allCardsSelected && <li>You appear to have all the cards.</li>}
+                         {this.state.validations.invalidPlayers.length > 0 && <li>You might need to fix some player names.</li>}
+                         {this.state.validations.insufficientPlayers && <li>You need at least three people to play the game.</li>}
+                     </ul>
                    </Alert>
                 }
                 
@@ -247,7 +195,13 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
 
                         <div className="gameSetupSection">
                             <div className="gameSetupSectionHeader">What cards do you have?</div>
-                            <GameSetupCardList toggleCardSelection={value=>this.toggleCardSelection(value)} cards={this.state.cards} />
+                            <div>
+                                <GameSetupCardList cards={this.state.characterCards} toggleCardSelection={this.onCharacterCardClick} />
+                                <GameSetupCardList cards={this.state.weaponCards} toggleCardSelection={this.onWeaponCardClick} />
+                                <GameSetupCardList cards={this.state.roomCards} toggleCardSelection={this.onRoomCardClick} />
+                            </div>
+                            
+                                
                         </div>
                     </div>
                     
@@ -256,6 +210,18 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                     </div>
                 </form>
             </div>)
+    }
+
+    private dismissValidationAlert = (): void => {
+        this.setState({
+            validations: {
+                show: false,
+                allCardsSelected: this.state.validations.allCardsSelected,
+                noCardsSelected: this.state.validations.noCardsSelected,
+                insufficientPlayers: this.state.validations.insufficientPlayers,
+                invalidPlayers: [...this.state.validations.invalidPlayers]
+            }
+        });
     }
 
     private addPlayer = (): void => {
@@ -273,6 +239,45 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
         players[index] = player;
 
         this.setState({players: players});
+    }
+
+    private onCharacterCardClick = (cardName: string): void => {
+        const cards = this.state.characterCards.map((card) => {
+            if (card.name == cardName) {
+                if (!!card.owner) card.owner = null;
+                else card.owner = this.state.players.filter((player) => player.isUser === true)[0]; 
+            }
+
+            return card;
+        })
+
+        this.setState({characterCards: cards})
+    }
+
+    private onRoomCardClick = (cardName: string): void => {
+        const cards = this.state.roomCards.map((card) => {
+            if (card.name == cardName) {
+                if (!!card.owner) card.owner = null;
+                else card.owner = this.state.players.filter((player) => player.isUser === true)[0]; 
+            }
+
+            return card;
+        })
+
+        this.setState({roomCards: cards})
+    }
+
+    private onWeaponCardClick = (cardName: string): void => {
+        const cards = this.state.weaponCards.map((card) => {
+            if (card.name == cardName) {
+                if (!!card.owner) card.owner = null;
+                else card.owner = this.state.players.filter((player) => player.isUser === true)[0]; 
+            }
+
+            return card;
+        })
+
+        this.setState({weaponCards: cards})
     }
 
     private removePlayerHandler = (index: number): void => {

@@ -4,7 +4,7 @@ import { FormControl } from "react-bootstrap";
 import { FormGroup } from "react-bootstrap";
 import { InputGroup } from "react-bootstrap";
 import { Glyphicon } from "react-bootstrap";
-import { Player } from "../model/Player";
+import { Player } from "../../model/Player";
 
 export interface GameSetupPlayerProps {
     index: number;
@@ -42,7 +42,6 @@ export class GameSetupPlayer extends React.Component<GameSetupPlayerProps, {}> {
                     <Button componentClass={InputGroup.Button} disabled={player.isUser} onClick={this.removePlayer} bsStyle="danger">
                         <Glyphicon glyph="remove" />
                     </Button>
-                    <div>{index}</div>
                 </InputGroup>
             </FormGroup>
     }

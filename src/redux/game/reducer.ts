@@ -1,13 +1,13 @@
 import { isType, AnyAction } from 'typescript-fsa';
 import { addSuspicionAction, setGameAction } from './actions';
-import { Game } from '../../model/Game';
-import { Card } from '../../model/Card';
-import { Player } from '../../model/Player';
-import { Suspicion } from '../../model/Suspicion';
+import { Game } from '../../model/game';
+import { Deck } from '../../model/deck';
+import { Player } from '../../model/player';
+import { Suspicion } from '../../model/suspicion';
 
 const initialGameState: Game = {
         players: [] as Player[],
-        cards: [] as Card[],
+        deck: null,
         suspicions: [] as Suspicion[]
 };
 
@@ -17,7 +17,7 @@ const reducer = (game: Game = initialGameState, action: AnyAction) => {
         return {
             game: {
                 players: action.payload.game.players,
-                cards: action.payload.game.cards,
+                deck: action.payload.game.deck,
                 suspicions: [] as Suspicion[]
             }
         };
@@ -27,7 +27,7 @@ const reducer = (game: Game = initialGameState, action: AnyAction) => {
         return {
             game: {
                 players: game.players,
-                cards: game.cards,
+                deck: game.deck,
                 suspicions: [...game.suspicions, action.payload.suspicion]
             }
              
@@ -38,7 +38,7 @@ const reducer = (game: Game = initialGameState, action: AnyAction) => {
        return {
             game: {
                 players: game.players,
-                cards: game.cards,
+                deck: game.deck,
                 suspicions: [...game.suspicions, action.payload.suspicion]
             }
        };

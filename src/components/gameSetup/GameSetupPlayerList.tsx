@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button } from "react-bootstrap";
 import { GameSetupPlayer } from './GameSetupPlayer';
-import { Player } from "../model/Player";
+import { Player } from "../../model/Player";
 
 export interface GameSetupPlayerListProps {
     players: Player[];
