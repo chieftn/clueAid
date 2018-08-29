@@ -1,8 +1,9 @@
+import { Card } from "./Card";
 import { Player } from "./Player";
 import { Suspicion } from "./Suspicion";
 
 export class Game {
-     id: number;
      players: Player[];
+     cards: Card[];
      suspicions: Suspicion[];
 }

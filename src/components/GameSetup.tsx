@@ -1,12 +1,14 @@
-import * as gameActions from "../actions/gameActions";
 import * as React from 'react';
-import * as PropTypes from "prop-Types";
-import { Alert } from "react-bootstrap";
-import { Button } from "react-bootstrap";
+import * as PropTypes from 'prop-Types';
+import { Alert } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import { Game } from '../model/Game';
 import { Card, CardFactory, CardType } from "../model/Card";
 import { GameSetupCardList } from "./GameSetupCardList";
+import { setGameAction } from '../redux/game/actions';
 import { GameSetupPlayerList } from "./GameSetupPlayerList";
-import {Player } from "../model/Player";
+import {Player } from '../model/Player';
+import  store from '../redux/store';
 
 export interface GameSetupProps {}
 export interface GameSetupValidationState {
@@ -32,8 +34,8 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
         super(props);
         this.state = {
             players: [
-                { name: "Me", isUser: true},
-                { name: "", isUser: false}
+                { name: 'Me', isUser: true},
+                { name: '', isUser: false}
             ],
             cards: CardFactory(),
             validations: {
@@ -49,15 +51,19 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
     private submit(): void {
         
         let validationState = this.getValidationState();
-        
+        if (!validationState.show) {
+            const game: Game = {
+                players: this.state.players,
+                cards: this.state.cards,
+                suspicions: []
+            };
+
+            store.dispatch(setGameAction({ game: game}));
+        }
+
         this.setState({
             validations: validationState
         });
-    }
-
-    private createGame(): void {
-        let {store} = this.context;
-        store.dispatch(gameActions.addGame);
     }
 
     private getValidationState(): GameSetupValidationState {
