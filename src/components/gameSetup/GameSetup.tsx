@@ -12,7 +12,11 @@ import { setGameAction } from '../../redux/game/actions';
 import  store from '../../redux/store';
 import { Redirect } from 'react-router';
 
-export interface GameSetupProps {}
+export interface GameSetupProps {
+    currentGame: Game;
+    createGame: (game: Game) => void;
+}
+
 export interface GameSetupValidationState {
     show: boolean;
     allCardsSelected: boolean;
@@ -21,6 +25,7 @@ export interface GameSetupValidationState {
     invalidPlayers: Player[];
 }
 export interface GameSetupState {
+    
     players: Player[];
     characterCards: Card[];
     redirectToTracker: boolean;
@@ -74,7 +79,7 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                 suspicions: []
             };
 
-            store.dispatch(setGameAction({ game: game}));
+            this.props.createGame(game);
             redirectToTracker = true;
         }
 

@@ -1,5 +1,5 @@
 import { isType, AnyAction } from 'typescript-fsa';
-import { addSuspicionAction, setGameAction } from './actions';
+import { setGameAction } from './actions';
 import { Game } from '../../model/game';
 import { Player } from '../../model/player';
 import { Suspicion } from '../../model/suspicion';
@@ -20,16 +20,6 @@ const reducer = (game: Game = initialGameState, action: AnyAction) => {
                 suspicions: [] as Suspicion[]
             }
         };
-    }
-
-    if (isType(action, addSuspicionAction)) {
-       return {
-            game: {
-                players: game.players,
-                deck: game.deck,
-                suspicions: [...game.suspicions, action.payload.suspicion]
-            }
-       };
     }
 
     return { game : game };

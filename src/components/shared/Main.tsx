@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { GameSetup } from '../gameSetup/GameSetup';
-import { GameTracker } from "../gameTracker/gameTracker";
+import GameSetupContainer from '../gameSetup/gameSetupContainer';
+import GameTrackerContainer from '../gameTracker/gameTrackerContainer';
 import { Home } from './Home';
 import { Switch, Route } from 'react-router-dom'
 
@@ -16,8 +16,8 @@ export class Main extends React.Component<MainProps, {}> {
             <Switch>
                 <Route exact path='/' component={Home}/>
                 <Route path="/Home" component={Home}/>
-                <Route path="/GameSetup" component={GameSetup}/>
-                <Route path="/GameTracker" component={GameTracker}/>
+                <Route path="/GameSetup" component={GameSetupContainer}/>
+                <Route path="/GameTracker" component={GameTrackerContainer}/>
             </Switch>
         </div>
     }
