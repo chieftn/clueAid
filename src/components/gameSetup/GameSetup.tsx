@@ -4,12 +4,13 @@ import { Alert } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import { Card } from '../../model/card';
 import { generateDeck } from '../../model/deck';
-import { Game } from '../../model/game';
+import { Game, myName } from '../../model/game';
 import { GameSetupCardList } from './GameSetupCardList';
 import { GameSetupPlayerList } from './GameSetupPlayerList';
 import { Player } from '../../model/Player';
 import { setGameAction } from '../../redux/game/actions';
 import  store from '../../redux/store';
+import { Redirect } from 'react-router';
 
 export interface GameSetupProps {}
 export interface GameSetupValidationState {
@@ -22,6 +23,7 @@ export interface GameSetupValidationState {
 export interface GameSetupState {
     players: Player[];
     characterCards: Card[];
+    redirectToTracker: boolean;
     roomCards: Card[];
     weaponCards: Card[];
     validations: GameSetupValidationState;
@@ -39,10 +41,11 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
         const deck = generateDeck();
         this.state = {
             players: [
-                { name: 'Me', isUser: true},
+                { name: myName, isUser: true},
                 { name: '', isUser: false}
             ],
             characterCards: deck.characters,
+            redirectToTracker: false,
             roomCards: deck.rooms,
             weaponCards: deck.weapons,
             validations: {
@@ -58,6 +61,8 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
     private submit(): void {
         
         let validationState = this.getValidationState();
+        let redirectToTracker = false;
+
         if (!validationState.show) {
             const game: Game = {
                 players: this.state.players,
@@ -70,10 +75,12 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
             };
 
             store.dispatch(setGameAction({ game: game}));
+            redirectToTracker = true;
         }
 
         this.setState({
-            validations: validationState
+            validations: validationState,
+            redirectToTracker: redirectToTracker
         });
     }
 
@@ -125,9 +132,21 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
 
     private getInvalidPlayers(): Player[] {
 
+        let set = new Set<string>();
+        const myNameLower = myName.toLowerCase();
         const invalidPlayers = this.state.players.filter((player) => {
-            return player.name === "";
-        })
+            const nameLower = player.name.toLowerCase();
+
+            if (player.name === '') return true;
+            if (set.has(nameLower)) return true;
+
+            if (nameLower === myNameLower && !player.isUser) return true;            
+            if (nameLower !== myNameLower) { 
+                set.add(nameLower);
+            }
+
+            return false;
+        });
 
         return invalidPlayers;
     }
@@ -158,9 +177,11 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
         this.setState({players: players});
     }
 
-
-
     render() {
+
+        if (this.state.redirectToTracker) {
+            return (<Redirect to="gameTracker"/>);
+        }
 
        return( 
             <div className="gameSetup">
@@ -171,7 +192,7 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                      <ul>
                          {this.state.validations.noCardsSelected && <li>Please tell me what cards you have.</li>}
                          {this.state.validations.allCardsSelected && <li>You appear to have all the cards.</li>}
-                         {this.state.validations.invalidPlayers.length > 0 && <li>You might need to fix some player names.</li>}
+                         {this.state.validations.invalidPlayers.length > 0 && <li>You have players with duplicate or missing names.</li>}
                          {this.state.validations.insufficientPlayers && <li>You need at least three people to play the game.</li>}
                      </ul>
                    </Alert>
@@ -290,10 +311,6 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
 
     private movePlayerUpHandler = (index: number): void => {
         this.decreaseIndexByOne(index);
-    }
-
-    private onDismissValidationAlert = (): void => {
-        this.dismissValidationAlert();
     }
 }
 
