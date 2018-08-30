@@ -8,7 +8,6 @@ import { NonFunctionProperties, FunctionProperties } from '../../redux/types';
 import { setGameAction } from '../../redux/game/actions';
 
 const mapStateToProps = (state: State, ownProps: GameTrackerProps): NonFunctionProperties<Partial<GameTrackerProps>> => {
-    console.log(state);
     const currentGame = state.game;
     return {
         game: currentGame

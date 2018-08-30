@@ -14,11 +14,9 @@ const reducer = (game: Game = initialGameState, action: AnyAction) => {
 
     if (isType(action, setGameAction)) {
         return {
-            game: {
-                players: action.payload.game.players,
-                deck: action.payload.game.deck,
+                players: action.payload.players,
+                deck: action.payload.deck,
                 suspicions: [] as Suspicion[]
-            }
         };
     }
 
