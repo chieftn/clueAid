@@ -6,5 +6,5 @@ import suspicionReducer from './suspicions/reducers';
 export default combineReducers({ 
     deck: deckReducer,
     players: playersReducer,
-    suscipion: suspicionReducer
+    suscipions: suspicionReducer
 })
