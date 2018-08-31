@@ -188,6 +188,8 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
             return (<Redirect to="gameTracker"/>);
         }
 
+        console.log(this.props.currentGame);
+        console.log(this.props.createGame);
        return( 
             <div className="gameSetup">
                 {

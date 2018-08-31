@@ -1,6 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
 import { Game } from '../../model/Game';
-import { Suspicion } from '../../model/Suspicion';
 
 const GAME_ACTION_PREFIX = 'GAME_SETUP_';
 const GAME_ACTION_SUFFIX_SET_GAME = 'SET_GAME';

@@ -7,16 +7,15 @@ import { State } from '../../redux/state';
 import { NonFunctionProperties, FunctionProperties } from '../../redux/types';
 import { setGameAction } from '../../redux/game/actions';
 
-const mapStateToProps = (state: State, ownProps: GameTrackerProps): NonFunctionProperties<Partial<GameTrackerProps>> => {
-    const currentGame = state.game;
+const mapStateToProps = (state: State): NonFunctionProperties<Partial<GameTrackerProps>> => {
     return {
-        game: currentGame
+        game: state.game
     }
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): FunctionProperties<Partial<GameTrackerProps>> => {
     return {
-        reviseGame: (game: Game) => dispatch(setGameAction)
+        reviseGame: (game: Game) => dispatch(setGameAction(game))
     };
 };
 

@@ -12,12 +12,13 @@ export class GameTracker extends React.Component<GameTrackerProps, {}> {
         super(props);
     }
 
-    //{this.props.game.players.map(player => <li>{player.name}</li>)}
+    
     render() {
         return (
             <div>
+              
                 <ul>
-                    <li>Here</li>
+                    {this.props.game.players.map(player => <li>{player.name}</li>)}
                 </ul>
             </div>
         )

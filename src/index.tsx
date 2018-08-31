@@ -9,7 +9,9 @@ import GameSetupContainer from './components/gameSetup/gameSetupContainer';
 
 ReactDOM.render(
     <Provider store={store}>
-        <GameSetupContainer/>
+        <HashRouter>
+            <App/>
+        </HashRouter>
     </Provider>,
     document.getElementById("example")
 );

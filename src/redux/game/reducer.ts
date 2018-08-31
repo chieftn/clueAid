@@ -20,6 +20,6 @@ const reducer = (game: Game = initialGameState, action: AnyAction) => {
         };
     }
 
-    return { game : game };
+    return game;
 }
 export default reducer;
