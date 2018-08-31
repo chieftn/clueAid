@@ -1,5 +1,10 @@
 import { combineReducers } from 'redux';
-import gameReducer from './game/reducer';
+import playersReducer from './players/reducer';
+import deckReducer from './deck/reducer';
+import suspicionReducer from './suspicions/reducers';
 
 export default combineReducers({ 
-    game: gameReducer })
+    deck: deckReducer,
+    players: playersReducer,
+    suscipion: suspicionReducer
+})

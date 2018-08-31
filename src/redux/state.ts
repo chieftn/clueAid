@@ -1,5 +1,12 @@
-import { Game } from '../model/Game';
+import { Assertion } from '../model/assertion';
+import { Deck } from '../model/deck';
+import { Player } from '../model/player';
+import { Suspicion } from '../model/suspicion';
 
 export interface State {
-    game: Game;
+    assertions: Assertion[];
+    players: Player[];
+    deck: Deck;
+    suspicions: Suspicion[];
+
 }

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { GameSetupCard } from './GameSetupCard';
-import { Card } from '../../model/card'
 
 export interface GameSetupCardListProps {
-    toggleCardSelection(cardName: string): void;
-    cards: Card[];
+    toggleCardSelection(card: string): void;
+    selectedCards: string[];
+    cards: string[]
 }
 
 export class GameSetupCardList extends React.Component<GameSetupCardListProps, {}> {
@@ -14,15 +14,18 @@ export class GameSetupCardList extends React.Component<GameSetupCardListProps, {
     }
 
     render() {
-
         return (
             <div className="gameSetupCards">
-                {this.props.cards.map(card => <GameSetupCard card={card} onClick={this.toggleCardSelection} />)}
+                {this.props.cards.map(card => 
+                <GameSetupCard 
+                    card={card} 
+                    selected={this.props.selectedCards.indexOf(card) > -1} 
+                    onClick={this.toggleCardSelection} />)}
             </div>
         )
     }
 
-    private toggleCardSelection = (card: Card): void => {
-        this.props.toggleCardSelection(card.name);
+    private toggleCardSelection = (card: string): void => {
+        this.props.toggleCardSelection(card);
     }
 }

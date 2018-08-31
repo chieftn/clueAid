@@ -2,19 +2,16 @@ import * as React from 'react';
 import * as PropTypes from 'prop-Types';
 import { Alert } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
-import { Card } from '../../model/card';
-import { generateDeck } from '../../model/deck';
-import { Game, myName } from '../../model/game';
+import { Deck } from '../../model/deck';
+import { myName } from '../../model/game';
 import { GameSetupCardList } from './GameSetupCardList';
 import { GameSetupPlayerList } from './GameSetupPlayerList';
 import { Player } from '../../model/Player';
-import { setGameAction } from '../../redux/game/actions';
-import  store from '../../redux/store';
 import { Redirect } from 'react-router';
 
 export interface GameSetupProps {
-    currentGame: Game;
-    createGame: (game: Game) => void;
+    deck: Deck;
+    addPlayer: (player: Player) => void;
 }
 
 export interface GameSetupValidationState {
@@ -24,13 +21,13 @@ export interface GameSetupValidationState {
     insufficientPlayers: boolean;
     invalidPlayers: Player[];
 }
+
 export interface GameSetupState {
-    
     players: Player[];
-    characterCards: Card[];
+    playerCharacterCards: string[];
+    playerRoomCards: string[];
+    playerWeaponCards: string[];
     redirectToTracker: boolean;
-    roomCards: Card[];
-    weaponCards: Card[];
     validations: GameSetupValidationState;
 }
 
@@ -43,16 +40,15 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
     constructor(props: GameSetupProps) {
         super(props);
 
-        const deck = generateDeck();
         this.state = {
             players: [
                 { name: myName, isUser: true},
                 { name: '', isUser: false}
             ],
-            characterCards: deck.characters,
+            playerCharacterCards: [],
+            playerWeaponCards: [],
+            playerRoomCards: [],
             redirectToTracker: false,
-            roomCards: deck.rooms,
-            weaponCards: deck.weapons,
             validations: {
                 show: false,
                 allCardsSelected: false,
@@ -69,17 +65,13 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
         let redirectToTracker = false;
 
         if (!validationState.show) {
-            const game: Game = {
-                players: this.state.players,
-                deck: {
-                    characters: this.state.characterCards,
-                    rooms: this.state.roomCards,
-                    weapons: this.state.weaponCards
-                },
-                suspicions: []
-            };
+            
+            this.state.players.forEach((player) => {
+                this.props.addPlayer(player)
+            })
 
-            this.props.createGame(game);
+            //add assertions.
+            
             redirectToTracker = true;
         }
 
@@ -114,25 +106,23 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
 
     private allCardsSelected(): boolean {
 
-        let selectedCharacters = this.state.characterCards.filter(card => card.owner !== null)
-        if (selectedCharacters.length === this.state.characterCards.length) return true;
-
-        let selectedRooms = this.state.roomCards.filter(card => card.owner !== null)
-        if (selectedRooms.length === this.state.roomCards.length) return true;
-        
-        let selectedWeapons = this.state.weaponCards.filter(card => card.owner !== null)
-        if (selectedWeapons.length === this.state.weaponCards.length) return true;
-
-        return false;
+        const allCharactersSelected = this.state.playerCharacterCards.length === this.props.deck.characterCards.length;
+        const allRoomCardsSelected = this.state.playerRoomCards.length === this.props.deck.roomCards.length;
+        const allWeaponCardsSelected = this.state.playerWeaponCards.length === this.props.deck.weaponCards.length;
+            
+        return (allCharactersSelected ||
+            allWeaponCardsSelected ||
+            allRoomCardsSelected);
     }
 
     private noCardsSelected(): boolean {
-        
-        let selectedCharacters = this.state.characterCards.filter(card => card.owner !== null)
-        let selectedRooms = this.state.roomCards.filter(card => card.owner !== null)
-        let selectedWeapons = this.state.weaponCards.filter(card => card.owner !== null)
-
-        return (selectedCharacters.length === 0 && selectedRooms.length === 0 && selectedWeapons.length === 0);
+        const noCharactersSelected = this.state.playerCharacterCards.length === 0;
+        const noWeaponCardsSelected = this.state.playerWeaponCards.length === 0;
+        const noRoomCardsSelected = this.state.playerRoomCards.length === 0;
+            
+        return (noCharactersSelected && 
+            noWeaponCardsSelected && 
+            noRoomCardsSelected);
     }
 
     private getInvalidPlayers(): Player[] {
@@ -188,8 +178,6 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
             return (<Redirect to="gameTracker"/>);
         }
 
-        console.log(this.props.currentGame);
-        console.log(this.props.createGame);
        return( 
             <div className="gameSetup">
                 {
@@ -224,9 +212,18 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
                         <div className="gameSetupSection">
                             <div className="gameSetupSectionHeader">What cards do you have?</div>
                             <div>
-                                <GameSetupCardList cards={this.state.characterCards} toggleCardSelection={this.onCharacterCardClick} />
-                                <GameSetupCardList cards={this.state.weaponCards} toggleCardSelection={this.onWeaponCardClick} />
-                                <GameSetupCardList cards={this.state.roomCards} toggleCardSelection={this.onRoomCardClick} />
+                                <GameSetupCardList 
+                                    cards={this.props.deck.characterCards} 
+                                    toggleCardSelection={this.onCharacterCardClick}
+                                    selectedCards={this.state.playerCharacterCards} />
+                                <GameSetupCardList 
+                                    cards={this.props.deck.weaponCards} 
+                                    toggleCardSelection={this.onWeaponCardClick}
+                                    selectedCards={this.state.playerWeaponCards} />
+                                <GameSetupCardList 
+                                    cards={this.props.deck.roomCards} 
+                                    toggleCardSelection={this.onRoomCardClick}
+                                    selectedCards={this.state.playerRoomCards} />
                             </div>
                             
                                 
@@ -255,7 +252,7 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
     private addPlayer = (): void => {
         let players = [...this.state.players];
         players.push({
-            name: "",
+            name: '',
             isUser: false
         });
         
@@ -270,42 +267,51 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
     }
 
     private onCharacterCardClick = (cardName: string): void => {
-        const cards = this.state.characterCards.map((card) => {
-            if (card.name == cardName) {
-                if (!!card.owner) card.owner = null;
-                else card.owner = this.state.players.filter((player) => player.isUser === true)[0]; 
-            }
+        let characterCards: string[] = [...this.state.playerCharacterCards];
+        const cardIndex = characterCards.indexOf(cardName);
 
-            return card;
-        })
+        if (cardIndex === -1) {
+            characterCards.push(cardName);
+        }
+        else {
+            characterCards = characterCards.slice(cardIndex + 1);
+        }
 
-        this.setState({characterCards: cards})
+        this.setState({
+            playerCharacterCards: characterCards
+        });
     }
 
     private onRoomCardClick = (cardName: string): void => {
-        const cards = this.state.roomCards.map((card) => {
-            if (card.name == cardName) {
-                if (!!card.owner) card.owner = null;
-                else card.owner = this.state.players.filter((player) => player.isUser === true)[0]; 
-            }
+        let roomCards: string[] = [...this.state.playerRoomCards];
 
-            return card;
-        })
-
-        this.setState({roomCards: cards})
+        const cardIndex = roomCards.indexOf(cardName);
+        if (cardIndex === -1) {
+            roomCards.push(cardName);
+        }
+        else {
+            roomCards = roomCards.slice(cardIndex + 1);
+        }
+        
+        this.setState({
+            playerRoomCards: roomCards
+        });    
     }
 
     private onWeaponCardClick = (cardName: string): void => {
-        const cards = this.state.weaponCards.map((card) => {
-            if (card.name == cardName) {
-                if (!!card.owner) card.owner = null;
-                else card.owner = this.state.players.filter((player) => player.isUser === true)[0]; 
-            }
+        let weaponCards: string[] = [...this.state.playerWeaponCards];
+        const cardIndex = weaponCards.indexOf(cardName);
 
-            return card;
-        })
+        if (cardIndex === -1) {
+            weaponCards.push(cardName);
+        }
+        else {
+            weaponCards = weaponCards.slice(cardIndex + 1);
+        }
 
-        this.setState({weaponCards: cards})
+        this.setState({
+            playerWeaponCards: weaponCards
+        });
     }
 
     private removePlayerHandler = (index: number): void => {
@@ -320,4 +326,3 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
         this.decreaseIndexByOne(index);
     }
 }
-

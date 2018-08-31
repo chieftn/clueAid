@@ -1,21 +1,22 @@
 import { connect } from 'react-redux';
 import { Dispatch, compose } from 'redux';
 import { AnyAction } from 'typescript-fsa';
-import { Game } from '../../model/game';
+import { addSuspicionAction} from '../../redux/suspicions/actions';
 import { GameTracker, GameTrackerProps } from './gameTracker';
 import { State } from '../../redux/state';
 import { NonFunctionProperties, FunctionProperties } from '../../redux/types';
-import { setGameAction } from '../../redux/game/actions';
+import { Suspicion } from '../../model/suspicion';
 
 const mapStateToProps = (state: State): NonFunctionProperties<Partial<GameTrackerProps>> => {
     return {
-        game: state.game
+        players: state.players,
+        deck: state.deck
     }
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): FunctionProperties<Partial<GameTrackerProps>> => {
     return {
-        reviseGame: (game: Game) => dispatch(setGameAction(game))
+        addSuspicion: (suspicion: Suspicion) => dispatch(addSuspicionAction(suspicion))
     };
 };
 

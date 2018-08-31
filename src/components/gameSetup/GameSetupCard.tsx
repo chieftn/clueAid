@@ -1,21 +1,21 @@
 import * as React from 'react';
 import { Button } from "react-bootstrap";
-import { Card } from "../../model/card";
 
 export interface GameSetupCardProps {
-    card: Card;
-    onClick: (card: Card) => void;
+    card: string;
+    selected: boolean;
+    onClick: (card: string) => void;
 }
 
 export class GameSetupCard extends React.Component<GameSetupCardProps, {}> {
 
     render() {
         return <Button 
-            className="gameSetupCard"
-            key={this.props.card.name}
-            bsStyle={this.props.card.owner === null ? "default" : "info"}
+            className='gameSetupCard'
+            key={this.props.card}
+            bsStyle={this.props.selected ? 'info' : 'default'}
             onClick={this.onClickHandler}>
-            {this.props.card.name}
+            {this.props.card}
         </Button>
     }
 

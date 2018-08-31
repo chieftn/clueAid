@@ -1,9 +1,12 @@
 import * as React from 'react';
-import { Game } from '../../model/game';
+import { Player } from '../../model/player';
+import { Deck } from '../../model/deck';
+import { Suspicion } from '../../model/suspicion';
 
 export interface GameTrackerProps {
-    game: Game;
-    reviseGame: (game: Game) => void; 
+    deck: Deck;
+    players: Player[];
+    addSuspicion: (suspicion: Suspicion) => void;
 }
 
 export class GameTracker extends React.Component<GameTrackerProps, {}> {
@@ -11,14 +14,12 @@ export class GameTracker extends React.Component<GameTrackerProps, {}> {
     constructor(props: GameTrackerProps) {
         super(props);
     }
-
     
     render() {
         return (
             <div>
-              
                 <ul>
-                    {this.props.game.players.map(player => <li>{player.name}</li>)}
+                    {this.props.players.map(player => <li>{player.name}</li>)}
                 </ul>
             </div>
         )
