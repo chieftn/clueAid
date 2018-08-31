@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-Types';
+import { Assertion } from '../../model/assertion';
 import { Alert } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import { Deck } from '../../model/deck';
@@ -11,6 +12,7 @@ import { Redirect } from 'react-router';
 
 export interface GameSetupProps {
     deck: Deck;
+    addAssertion: (assertion: Assertion) => void;
     addPlayer: (player: Player) => void;
 }
 
