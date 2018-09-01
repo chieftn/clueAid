@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-Types';
-import { Assertion } from '../../model/assertion';
+import { Assertion, AssertionType } from '../../model/assertion';
 import { Alert } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import { Deck } from '../../model/deck';
-import { myName } from '../../model/game';
+import { myName } from '../../model/player';
 import { GameSetupCardList } from './GameSetupCardList';
 import { GameSetupPlayerList } from './GameSetupPlayerList';
 import { Player } from '../../model/Player';
@@ -67,20 +67,46 @@ export class GameSetup extends React.Component<GameSetupProps, GameSetupState> {
         let redirectToTracker = false;
 
         if (!validationState.show) {
-            
-            this.state.players.forEach((player) => {
-                this.props.addPlayer(player)
-            })
-
-            //add assertions.
-            
             redirectToTracker = true;
+            this.commitPlayers();
+            this.commitAssertions();
         }
 
         this.setState({
             validations: validationState,
             redirectToTracker: redirectToTracker
         });
+    }
+
+    private commitPlayers(): void {
+        this.state.players.forEach((player) => {
+            this.props.addPlayer(player)
+        })
+    }
+
+    private commitAssertions(): void {
+
+        let assertions: Assertion[] = [
+            ...this.generateAssertions(this.props.deck.characterCards, this.state.playerCharacterCards),
+            ...this.generateAssertions(this.props.deck.roomCards, this.state.playerRoomCards),
+            ...this.generateAssertions(this.props.deck.weaponCards, this.state.playerWeaponCards)
+        ];
+
+        assertions.forEach(assertion => this.props.addAssertion(assertion));
+    }
+
+    private generateAssertions(cards: string[], playerCards: string[]): Assertion[] {
+        const playerCardSet = new Set(playerCards);
+        const cardAssertions = cards.map((card) => {
+            const assertionType: AssertionType = playerCardSet.has(card) ? AssertionType.Has : AssertionType.DoesNotHave;
+            return {
+                playerName: myName,
+                assertionType: assertionType,
+                cardName: card
+            };
+        });
+
+        return cardAssertions;
     }
 
     private getValidationState(): GameSetupValidationState {
