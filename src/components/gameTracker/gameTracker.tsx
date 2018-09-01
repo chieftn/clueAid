@@ -37,13 +37,22 @@ export class GameTracker extends React.Component<GameTrackerProps, GameTrackerSt
                 <div className='launchSubmission'>
                     <Button bsStyle="primary" bsSize="large" onClick={this.launchSuspicionDialog}>Submit</Button>
                 </div>
-                
+
                 <Modal show={this.state.showSuspicionDialog} onHide={this.closeSuspicionDialog}>
-                    <GameTrackerSuspicion deck={this.props.deck} addSuspicion={this.addSuspicion} players={this.props.players} />
+                    <Modal.Header closeButton={true}>
+                        <Modal.Title>Add Suspicion</Modal.Title>
+                    </Modal.Header>
+                    <GameTrackerSuspicion 
+                        deck={this.props.deck} 
+                        addSuspicion={this.addSuspicion} 
+                        players={this.props.players}
+                        close={this.closeSuspicionDialog} />
                 </Modal>
             </div>
         )
     }
+
+    onHide = (): void => {}
 
     addSuspicion = (): void => {
 
