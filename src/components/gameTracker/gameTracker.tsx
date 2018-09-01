@@ -1,4 +1,8 @@
 import * as React from 'react';
+import { Button } from 'react-bootstrap';
+import { GameTrackerPlayer } from './gameTrackerPlayer';
+import { GameTrackerSuspicion } from './gameTrackerSuspicion';
+import { Modal } from 'react-bootstrap';
 import { Player } from '../../model/player';
 import { Deck } from '../../model/deck';
 import { Suspicion } from '../../model/suspicion';
@@ -9,19 +13,51 @@ export interface GameTrackerProps {
     addSuspicion: (suspicion: Suspicion) => void;
 }
 
-export class GameTracker extends React.Component<GameTrackerProps, {}> {
+export interface GameTrackerState {
+    showSuspicionDialog: boolean;
+}
+
+export class GameTracker extends React.Component<GameTrackerProps, GameTrackerState> {
 
     constructor(props: GameTrackerProps) {
         super(props);
+
+        this.state = {
+            showSuspicionDialog: false
+        };
     }
     
-    render() {
+    render(): JSX.Element {
         return (
-            <div>
-                <ul>
-                    {this.props.players.map(player => <li>{player.name}</li>)}
-                </ul>
+            <div className='gameTracker'>
+                <div className='gameTrackerHeader'>Player Status</div>
+                <div className='gameTrackerPlayerList'>
+                    {this.props.players.map(player => <GameTrackerPlayer name={player.name} cardsInHand={[]} cardsNotInHand={[]} /> )}
+                </div>
+                <div className='launchSubmission'>
+                    <Button bsStyle="primary" bsSize="large" onClick={this.launchSuspicionDialog}>Submit</Button>
+                </div>
+                
+                <Modal show={this.state.showSuspicionDialog} onHide={this.closeSuspicionDialog}>
+                    <GameTrackerSuspicion deck={this.props.deck} addSuspicion={this.addSuspicion} players={this.props.players} />
+                </Modal>
             </div>
         )
+    }
+
+    addSuspicion = (): void => {
+
+    }
+
+    launchSuspicionDialog = (): void => {
+        this.setState({
+            showSuspicionDialog: true
+        });
+    }
+
+    closeSuspicionDialog = (): void => {
+        this.setState({
+            showSuspicionDialog: false
+        });
     }
 }
