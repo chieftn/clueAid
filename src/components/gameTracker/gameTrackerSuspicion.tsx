@@ -43,8 +43,17 @@ export class GameTrackerSuspicion extends React.Component<GameTrackerSuspicionPr
     }
 
     private isValid = (suspicion: Suspicion): boolean => {
-        if (suspicion.alibiCard === null) return false;
-        if (suspicion.alibiFrom === null || suspicion.alibiFrom === '') return false;
+        if (!suspicion.alibiFrom) return false;
+        if (!suspicion.suspectedCharacter) return false;
+        if (!suspicion.suspectedRoom) return false;
+        if (!suspicion.suspectedWeapon) return false;
+        if (!suspicion.suspectingPlayer) return false;
+
+        if (suspicion.suspectingPlayer == myName && suspicion.alibiFrom != noOne) {
+            return !!suspicion.alibiCard;
+        }
+
+        return true;
      }
 
     private addSuspicion = (): void => {
@@ -75,8 +84,9 @@ export class GameTrackerSuspicion extends React.Component<GameTrackerSuspicionPr
         
         const showAlibiCard = event.target.value !== noOne && this.state.suspectingPlayer === myName;
         this.setState({
+            alibiCard: showAlibiCard ? this.state.alibiCard : null,
             alibiFrom: event.target.value,
-            showAlibiCard: true
+            showAlibiCard: showAlibiCard
         });   
     }
 
@@ -90,8 +100,9 @@ export class GameTrackerSuspicion extends React.Component<GameTrackerSuspicionPr
             && this.state.alibiFrom !== null
 
         this.setState({
+            alibiCard: showAlibiCard ? this.state.alibiCard : null,
             suspectingPlayer: event.target.value,
-            showAlibiCard: true
+            showAlibiCard: showAlibiCard
         });
     }
 

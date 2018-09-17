@@ -10,7 +10,8 @@ import { Suspicion } from '../../model/suspicion';
 const mapStateToProps = (state: State): NonFunctionProperties<Partial<GameTrackerProps>> => {
     return {
         players: state.players,
-        deck: state.deck
+        deck: state.deck,
+        suspicions: state.suspicions
     }
 };
 

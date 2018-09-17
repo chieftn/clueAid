@@ -7,6 +7,6 @@ import suspicionsReducer from './suspicions/reducers';
 export default combineReducers({ 
     deck: deckReducer,
     players: playersReducer,
-    suscipions: suspicionsReducer,
+    suspicions: suspicionsReducer,
     assertions: assertionsReducer
 })
