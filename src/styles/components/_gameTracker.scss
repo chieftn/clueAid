@@ -17,13 +17,13 @@
 .gameTrackerPlayer {
     border-style: solid;
     border-width: 1px;
-    border-color: $theme-dark-context;
+    border-color: $theme-dark-highlight;
     margin: 5px;
 }
 
 .gameTrackerPlayerName {
-    background-color: $theme-dark-context;
-    color: $theme-dark-highlight;
+    background-color: $theme-dark-highlight;
+    color: $theme-dark-text;
     font-size: 20px;
     padding:10px;
 }

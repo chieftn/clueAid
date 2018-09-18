@@ -32,7 +32,7 @@ export class GameTracker extends React.Component<GameTrackerProps, GameTrackerSt
     render(): JSX.Element {
         return (
             <div className='gameTracker'>
-                <div className='gameTrackerHeader'>Player Status</div>
+                <div className='gameTrackerHeader'>Player Cards</div>
                 <div className='gameTrackerPlayerList'>
                     {this.props.players.map(player => <GameTrackerPlayer name={player.name} cardsInHand={[]} cardsNotInHand={[]} /> )}
                 </div>

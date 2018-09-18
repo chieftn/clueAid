@@ -1,3 +1,4 @@
+import { myName } from '../../model/player';
 import * as React from 'react';
 
 export interface GameTrackerPlayerProps {
@@ -16,13 +17,8 @@ export class GameTrackerPlayer extends React.Component<GameTrackerPlayerProps, {
         return (
             <div key={this.props.name} className='gameTrackerPlayer'>
                 <div className='gameTrackerPlayerName'>{this.props.name}</div>
-                <div className='gameTrackerPlayerHandHeader'>Cards In Hand</div>
                 <ul className='gameTrackerPlayerHandList'>
                     {this.props.cardsInHand.map(card => <li className='gameTrackerPlayerCard'>{card}</li>)}
-                </ul>
-                <div className='gameTrackerPlayerHandHeader'>Cards Not In Hand</div>
-                <ul>
-                    {this.props.cardsNotInHand.map(card => <li className='gameTrackerPlayerCard'>{card}</li>)}
                 </ul>
             </div>
         )
