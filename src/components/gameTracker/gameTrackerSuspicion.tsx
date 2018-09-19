@@ -78,9 +78,14 @@ export class GameTrackerSuspicion extends React.Component<GameTrackerSuspicionPr
         }
     }
 
+    private onAlibiCardChange = (event: any): void => {
+
+        this.setState({
+            alibiCard: event.target.value
+        });
+    }
+
     private onAlibiFromChange = (event: any): void => {
-        
-        if (event.target.value === '') return;
         
         const showAlibiCard = event.target.value !== noOne && this.state.suspectingPlayer === myName;
         this.setState({
@@ -91,8 +96,6 @@ export class GameTrackerSuspicion extends React.Component<GameTrackerSuspicionPr
     }
 
     private onSuspectingPlayerChange = (event: any): void => {
-
-        if (event.target.value === '') return;
 
         const showAlibiCard = 
             event.target.value === myName 
@@ -108,8 +111,6 @@ export class GameTrackerSuspicion extends React.Component<GameTrackerSuspicionPr
 
     private onSuspectedCharacterChange = (event: any): void => {
         
-        if (event.target.value === '') return;
-        
         this.setState({
             suspectedCharacter: event.target.value
         });
@@ -117,8 +118,6 @@ export class GameTrackerSuspicion extends React.Component<GameTrackerSuspicionPr
 
     private onSuspectedRoomChange = (event: any): void => {
         
-        if (event.target.value === '') return;
-
         this.setState({
             suspectedRoom: event.target.value
         });
@@ -126,8 +125,6 @@ export class GameTrackerSuspicion extends React.Component<GameTrackerSuspicionPr
 
     private onSuspectedWeaponChange = (event: any): void => {
         
-        if (event.target.value === '') return;
-
         this.setState({
             suspectedWeapon: event.target.value
         });
@@ -207,7 +204,7 @@ export class GameTrackerSuspicion extends React.Component<GameTrackerSuspicionPr
                         <div>
                             <ControlLabel>Showing you...</ControlLabel>
                             <FormGroup controlId="formControlsSelect">
-                                <FormControl componentClass="select" placeholder="(Weapon)" onChange={this.onSuspectedWeaponChange}>
+                                <FormControl componentClass="select" placeholder="(Weapon)" onChange={this.onAlibiCardChange}>
                                     <option></option>
                                     <option value={this.state.suspectedCharacter}>{this.state.suspectedCharacter}</option>
                                     <option value={this.state.suspectedWeapon}>{this.state.suspectedWeapon}</option>

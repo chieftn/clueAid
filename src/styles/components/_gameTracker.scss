@@ -2,6 +2,9 @@
     margin-left: 60px;
     margin-right: 60px;
     margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: wrap;
 }
 
 .gameTrackerPlayerList {
@@ -45,3 +48,14 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.gameTrackSuspicionSummaryTable th, td {
+    max-width: 150px;
+    overflow: hidden;
+    padding-left:15px;
+    padding-right:15px;
+    text-overflow: ellipsis;   
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+}
+

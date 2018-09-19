@@ -32,16 +32,29 @@ export class GameTracker extends React.Component<GameTrackerProps, GameTrackerSt
     render(): JSX.Element {
         return (
             <div className='gameTracker'>
-                <div className='gameTrackerHeader'>Player Cards</div>
-                <div className='gameTrackerPlayerList'>
-                    {this.props.players.map(player => <GameTrackerPlayer name={player.name} cardsInHand={[]} cardsNotInHand={[]} /> )}
+
+                <div className="gameTrackerSummary">
+                    <div className="gameTrackerConfidentialCardsSection">
+                        <div className='gameTrackerHeader'>Confidential Cards</div>
+                    </div>
+
+                    <div className="gameTrackerPlayerCardsSection">
+                        <div className='gameTrackerHeader'>Player Cards</div>
+                        <div className='gameTrackerPlayerList'>
+                            {this.props.players.map(player => <GameTrackerPlayer name={player.name} cardsInHand={[]} cardsNotInHand={[]} /> )}
+                        </div>
+                    </div>
+
+                    <div className='gameTrackerlaunchSuspicion'>
+                        <Button bsStyle="primary" bsSize="large" onClick={this.launchSuspicionDialog}>Add Suspicion</Button>
+                    </div>
                 </div>
-                <div className='gameTrackerlaunchSuspicion'>
-                    <Button bsStyle="primary" bsSize="large" onClick={this.launchSuspicionDialog}>Add Suspicion</Button>
-                </div>
-                <div className='gameTrackerHeader'>Suspicions</div>
-                <div className='gameTrackerSuspicionList'>
-                    {this.props.suspicions.map(suspicion => <GameTrackerSuspicionSummary suspicion={suspicion}/>)}
+
+                <div className="gameTrackDetails">
+                    <div className="gameTrackerSuspicionListSection">
+                        <div className='gameTrackerHeader'>Suspicions</div>
+                        <GameTrackerSuspicionSummary suspicions={this.props.suspicions} />
+                    </div>
                 </div>
 
                 <Modal show={this.state.showSuspicionDialog} onHide={this.closeSuspicionDialog}>
