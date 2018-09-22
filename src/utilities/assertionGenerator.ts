@@ -2,11 +2,8 @@ import { Assertion, AssertionType } from '../model/assertion';
 import { Deck } from '../model/Deck';
 import { LinkedList } from './linkedList';
 import { myName, noOne, Player } from '../model/player';
-import { PlayerHandProjection } from '../model/playerHandProjection';
 import { DeckProjection, CardProjection } from '../model/DeckProjection';
 import { Suspicion } from '../model/suspicion';
-import { noop } from 'redux-saga/utils';
-
 
 export class AssertionGenerator {
 
@@ -116,7 +113,7 @@ export class AssertionGenerator {
             this.deckProjection.get(suspicion.suspectedWeapon).owner !== noOne && 
             this.deckProjection.get(suspicion.suspectedWeapon).owner !== suspicion.alibiFrom) ? 1 : 0;
 
-        if (characterHasOtherOwner + roomHasOtherOwner + weaponHasOtherOwner == 2) {
+        if (characterHasOtherOwner + roomHasOtherOwner + weaponHasOtherOwner === 2) {
             if (!characterHasOtherOwner) {
                 assertions.push(...this.generateHasAssertion(suspicion.alibiFrom, suspicion.suspectedCharacter));
                 this.playerList.nodes.forEach((playerNode) => {

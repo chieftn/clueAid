@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
+import { Assertion } from '../../model/assertion';
 import { GameTrackerPlayer } from './gameTrackerPlayer';
 import { GameTrackerSuspicion } from './gameTrackerSuspicion';
 import { GameTrackerSuspicionSummary } from './gameTrackerSuspicionSummary';
 import { Modal } from 'react-bootstrap';
-import { Player } from '../../model/player';
+import { noOne, Player } from '../../model/player';
+import { PlayerProjection } from '../../model/playerProjection';
+import { PlayerHand} from '../../model/playerProjection';
 import { Deck } from '../../model/deck';
 import { Suspicion } from '../../model/suspicion';
 
@@ -12,6 +15,7 @@ export interface GameTrackerProps {
     deck: Deck;
     players: Player[];
     suspicions: Suspicion[];
+    assertions: Assertion[];
     addSuspicion: (suspicion: Suspicion) => void;
 }
 
@@ -41,7 +45,9 @@ export class GameTracker extends React.Component<GameTrackerProps, GameTrackerSt
                     <div className="gameTrackerPlayerCardsSection">
                         <div className='gameTrackerHeader'>Player Cards</div>
                         <div className='gameTrackerPlayerList'>
-                            {this.props.players.map(player => <GameTrackerPlayer name={player.name} cardsInHand={[]} cardsNotInHand={[]} /> )}
+                            {this.generatePlayerProjection()
+                                .filter(playerHand => playerHand.playerName !== noOne)  
+                                .map(playerHand => <GameTrackerPlayer name={playerHand.playerName} cardsInHand={playerHand.cardsInHand} cardsNotInHand={playerHand.cardsNotInHand} /> )}
                         </div>
                     </div>
 
@@ -69,6 +75,13 @@ export class GameTracker extends React.Component<GameTrackerProps, GameTrackerSt
                 </Modal>
             </div>
         )
+    }
+
+    generatePlayerProjection = (): PlayerHand[] => {
+        const playerProjection = new PlayerProjection(this.props.players);
+        playerProjection.addAssertions(this.props.assertions);
+
+        return playerProjection.toArray();
     }
 
     onHide = (): void => {}

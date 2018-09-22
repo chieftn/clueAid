@@ -11,7 +11,8 @@ const mapStateToProps = (state: State): NonFunctionProperties<Partial<GameTracke
     return {
         players: state.players,
         deck: state.deck,
-        suspicions: state.suspicions
+        suspicions: state.suspicions,
+        assertions: state.assertions
     }
 };
 
