@@ -64,5 +64,8 @@ Thumbs.db
 csx/
 rcf/
 ecf/
-/src/WebRole.AcceptanceTests/authentication.json
-/src/WebRole.AcceptanceTests/typings
+
+# Project Files #
+#################
+!webpack.config.js
+dist/**/*
