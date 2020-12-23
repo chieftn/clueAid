@@ -68,4 +68,5 @@ ecf/
 # Project Files #
 #################
 !webpack.config.js
+!.eslintrc.js
 dist/**/*
