@@ -15,8 +15,12 @@
     "install": "0.13.0",
     "npm": "6.14.10",
     "react": "17.0.1",
+    "react-async-saga-reducer": "1.0.2",
     "react-dom": "17.0.1",
-    "react-router-dom": "5.2.0"
+    "react-router-dom": "5.2.0",
+    "redux-saga": "1.1.3",
+    "typescript-fsa": "3.0.0",
+    "typescript-fsa-reducers": "1.2.2"
   },
   "devDependencies": {
     "@types/react": "17.0.0",
