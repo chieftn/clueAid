@@ -1,3 +1,5 @@
 .banner {
-    background: blue;
+    display: flex;
+    align-items: center;
+    min-height: 40px;
 }
