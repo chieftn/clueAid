@@ -5,9 +5,8 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Banner } from './shared/components/banner';
 import { Footer } from './shared/components/footer';
 import { Home } from './shared/components/home';
-
 import { GameCreate } from './gameCreate/components/gameCreate';
-import './index.css';
+import './index.scss';
 
 export const App: React.FC = () => {
     return (
