@@ -5,7 +5,8 @@ import { Banner } from './shared/components/banner';
 import { Footer } from './shared/components/footer';
 import { Home } from './shared/components/home';
 import { GameCreate } from './gameCreate/components/gameCreate';
-import { PATHS } from './game/constants';
+import { GameStatus } from './gameStatus/components/gameStatus';
+import { PATHS } from './shared/constants';
 import { useGameState } from './game/hooks/useGameState';
 import { GameStateContext } from './game/context';
 import './app.scss';
@@ -22,6 +23,7 @@ export const App: React.FC = () => {
                         <GameStateContext.Provider value={[state,dispatch]}>
                             <Switch>
                                 <Route path={PATHS.CREATE} component={GameCreate} />
+                                <Route path={PATHS.STATUS} component={GameStatus} />
                                 <Route path={PATHS.HOME} component={Home} />
                             </Switch>
                         </GameStateContext.Provider>

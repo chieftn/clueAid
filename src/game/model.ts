@@ -1,3 +1,9 @@
+export interface Deck {
+    characterCards: readonly string[];
+    roomCards: readonly string[];
+    weaponCards: readonly string[];
+}
+
 export interface Player {
     id: number;
     name: string;
@@ -7,12 +13,6 @@ export interface Game {
     players: Player[];
     suspicions: Suspicion[];
     assertions: Assertion[];
-}
-
-export interface Deck {
-    characterCards: string[];
-    roomCards: string[];
-    weaponCards: string[];
 }
 
 export class Suspicion {

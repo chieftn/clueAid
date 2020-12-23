@@ -1,7 +1,7 @@
 import type { Game } from './model';
 
 export interface GameState {
-    Game?: Game;
+    game?: Game;
 }
 
 export const getInitialGameState = (): GameState => {

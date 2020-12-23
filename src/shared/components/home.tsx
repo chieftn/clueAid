@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { PrimaryButton } from '@fluentui/react';
 import { useHistory } from 'react-router-dom';
-import { PATHS } from '../../game/constants';
+import { PATHS } from '../constants';
 import './home.scss';
 
 export const Home: React.FC = () => {
@@ -16,7 +16,7 @@ export const Home: React.FC = () => {
             <h1>ClueAid</h1>
             <p>A helper application for the popular board game.</p>
             <div>
-                <PrimaryButton text='Get Started' onClick={onGetStartedClick} />
+                <PrimaryButton text='Get started' onClick={onGetStartedClick} />
             </div>
         </div>
     );
