@@ -19,25 +19,3 @@ body {
     overflow-x: hidden;
     overflow-y: hidden;
 }
-
-.app {
-    height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto;
-}
-
-.app > div:nth-child(1) {
-    grid-row: 1;
-}
-
-.app > div:nth-child(2) {
-    overflow-y: auto;
-    grid-row: 2;
-}
-
-.app > div:nth-child(3) {
-    grid-row: 3;
-}
-
-
