@@ -41,6 +41,7 @@ export const NameEntry: React.FC<NameEntryProps> = ({player, disableDelete, disa
                 title="Remove player"
                 ariaLabel="Remove this player"
                 iconProps={{iconName: 'Cancel'}}
+                disabled={disableDelete}
                 onClick={onDelete}
             />
             <TextField

@@ -6,6 +6,11 @@ export enum GameCreateMode {
     submitReady
 }
 
+export interface ValidationResult {
+    id: number;
+    value: string;
+}
+
 export interface GameCreateState {
     gameCreateMode: GameCreateMode;
     nextPlayerId: number;

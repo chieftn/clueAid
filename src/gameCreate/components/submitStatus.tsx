@@ -11,6 +11,8 @@ export const SubmitStatus: React.FC = () => {
         return hasErrors({formValidations, playerValidations, playerNameDuplicates});
     }, [formValidations, playerValidations, playerNameDuplicates])
 
+    console.log(gameCreateMode);
+
     if (gameCreateMode === GameCreateMode.validating) {
         return(
             <FocusTrapZone>

@@ -1,6 +1,6 @@
 import type { Player } from '../game/model';
 import { reducerWithoutInitialState } from 'typescript-fsa-reducers';
-import { GameCreateMode, GameCreateState } from './state';
+import { GameCreateMode, GameCreateState, ValidationResult } from './state';
 import {
     addPlayerAction,
     removePlayerAction,
@@ -10,7 +10,8 @@ import {
     movePlayerOrderAction,
     setPlayerDuplicatesAction,
     setPlayerValidationAction,
-    validateFormAction
+    validateFormAction,
+    setFormValidationsAction
 } from './actions';
 
 export const gameStateReducer = reducerWithoutInitialState<GameCreateState>()
@@ -65,10 +66,18 @@ export const gameStateReducer = reducerWithoutInitialState<GameCreateState>()
         const updatedState = {...state, playerNameDuplicates: payload};
         return updatedState;
     })
-    .case(setPlayerValidationAction, (state: GameCreateState, payload: {id: number, validation: string}) => {
+    .case(setPlayerValidationAction, (state: GameCreateState, payload: ValidationResult[]) => {
         const updatedState = {...state};
         updatedState.playerValidations = {...state.playerValidations};
-        updatedState.playerValidations[payload.id] = payload.validation;
+        payload.forEach(s => {
+            updatedState.playerValidations[s.id] = s.value
+        });
+
+        return updatedState;
+    })
+    .case(setFormValidationsAction, (state: GameCreateState, payload: string[]) => {
+        const updatedState = {...state};
+        updatedState.formValidations = payload;
 
         return updatedState;
     })
@@ -84,9 +93,9 @@ export const gameStateReducer = reducerWithoutInitialState<GameCreateState>()
 
         return updatedState;
     })
-    .case(validateFormAction.done, (state: GameCreateState) => {
+    .case(validateFormAction.failed, (state: GameCreateState) => {
         const updatedState = {...state};
         updatedState.gameCreateMode = GameCreateMode.idle;
 
         return updatedState;
-    })
+    });
