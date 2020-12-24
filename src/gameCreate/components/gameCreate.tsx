@@ -1,15 +1,18 @@
 import * as React from 'react';
-import { Text } from '@fluentui/react';
+import { Text, Overlay } from '@fluentui/react';
 import { GameInProgressWarning } from '../../shared/components/gameInProgressWarning';
 import { useGameCreateState } from '../hooks/useGameCreateState';
 import { GameCreateStateContext } from '../context';
+import { GameCreateMode } from '../state';
 import { CardSelection } from './cardToggles';
 import { NameEntries } from './nameEntries';
-import { Submit } from './submit';
+import { SubmitStatus } from './submitStatus';
+import { SubmitButton } from './submitButton';
 import './gameCreate.scss';
 
 export const GameCreate: React.FC = () => {
     const [state, dispatch] = useGameCreateState();
+    const { gameCreateMode } = state;
 
    return (
         <>
@@ -21,7 +24,9 @@ export const GameCreate: React.FC = () => {
                     </h2>
                     <NameEntries/>
                     <CardSelection/>
-                    <Submit/>
+                    <SubmitStatus/>
+                    <SubmitButton/>
+                    {gameCreateMode !== GameCreateMode.idle && <Overlay/>}
                 </div>
             </GameCreateStateContext.Provider>
         </>
