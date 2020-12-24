@@ -19,7 +19,7 @@ export const App: React.FC = () => {
             <Fabric>
                 <div className='app'>
                     <div><Banner/></div>
-                    <div>
+                    <main>
                         <GameStateContext.Provider value={[state,dispatch]}>
                             <Switch>
                                 <Route path={PATHS.CREATE} component={GameCreate} />
@@ -27,8 +27,8 @@ export const App: React.FC = () => {
                                 <Route path={PATHS.HOME} component={Home} />
                             </Switch>
                         </GameStateContext.Provider>
-                    </div>
-                    <div><Footer/></div>
+                    </main>
+                    <footer><Footer/></footer>
                 </div>
             </Fabric>
         </BrowserRouter>

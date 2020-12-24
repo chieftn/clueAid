@@ -10,7 +10,9 @@ export const removeUserCardAction = actionCreator<string>('CARD_REMOVE');
 export const addPlayerAction = actionCreator('PLAYER_ADD');
 export const removePlayerAction = actionCreator<number>('PLAYER_REMOVE');
 export const renamePlayerAction = actionCreator<Player>('PLAYER_RENAME')
-export const movePlayerOrderAction = actionCreator<{id: number, newIndex: number}>('PLAYER_MOVE');
+export const movePlayerOrderAction = actionCreator<{currentIndex: number, newIndex: number}>('PLAYER_MOVE');
 export const updateModeAction = actionCreator<GameCreateMode>('UPDATE_MODE');
-export const submitAction  = actionCreator('SUBMIT');
+export const setPlayerValidationAction = actionCreator<{id: number, validation: string}>('PLAYER_VALIDATE');
+export const setPlayerDuplicatesAction = actionCreator<Set<string>>('PLAYER_DUPLICATES');
+export const validateFormAction  = actionCreator.async<void, void, void>('VALIDATE');
 

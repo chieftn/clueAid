@@ -1,12 +1,16 @@
 import type { Player } from '../game/model';
 import { reducerWithoutInitialState } from 'typescript-fsa-reducers';
-import { GameCreateState } from './state';
+import { GameCreateMode, GameCreateState } from './state';
 import {
     addPlayerAction,
     removePlayerAction,
     renamePlayerAction,
     addUserCardAction,
-    removeUserCardAction
+    removeUserCardAction,
+    movePlayerOrderAction,
+    setPlayerDuplicatesAction,
+    setPlayerValidationAction,
+    validateFormAction
 } from './actions';
 
 export const gameStateReducer = reducerWithoutInitialState<GameCreateState>()
@@ -20,6 +24,9 @@ export const gameStateReducer = reducerWithoutInitialState<GameCreateState>()
     .case(removePlayerAction, (state: GameCreateState, payload: number) => {
         const updatedState = {...state};
         updatedState.players = state.players.filter(s => s.id !== payload);
+
+        updatedState.playerValidations = {...state.playerValidations};
+        delete(updatedState.playerValidations[payload]);
 
         return updatedState;
     })
@@ -42,4 +49,44 @@ export const gameStateReducer = reducerWithoutInitialState<GameCreateState>()
         updatedState.userCards.delete(payload);
 
         return updatedState;
-    });
+    })
+    .case(movePlayerOrderAction, (state: GameCreateState, payload: {currentIndex: number, newIndex: number}) => {
+        const { newIndex, currentIndex } = payload;
+        const updatedState = {...state};
+
+        const array = [...state.players]
+        array.splice(currentIndex, 1);
+        array.splice(newIndex, 0, state.players[currentIndex]);
+        updatedState.players = array;
+
+        return updatedState;
+    })
+    .case(setPlayerDuplicatesAction, (state: GameCreateState, payload: Set<string>) => {
+        const updatedState = {...state, playerNameDuplicates: payload};
+        return updatedState;
+    })
+    .case(setPlayerValidationAction, (state: GameCreateState, payload: {id: number, validation: string}) => {
+        const updatedState = {...state};
+        updatedState.playerValidations = {...state.playerValidations};
+        updatedState.playerValidations[payload.id] = payload.validation;
+
+        return updatedState;
+    })
+    .case(validateFormAction.started, (state: GameCreateState) => {
+        const updatedState = {...state};
+        updatedState.gameCreateMode = GameCreateMode.validating;
+
+        return updatedState;
+    })
+    .case(validateFormAction.done, (state: GameCreateState) => {
+        const updatedState = {...state};
+        updatedState.gameCreateMode = GameCreateMode.submitReady;
+
+        return updatedState;
+    })
+    .case(validateFormAction.done, (state: GameCreateState) => {
+        const updatedState = {...state};
+        updatedState.gameCreateMode = GameCreateMode.idle;
+
+        return updatedState;
+    })

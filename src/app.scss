@@ -9,11 +9,11 @@
     grid-row: 1;
 }
 
-.app > div:nth-child(2) {
+.app > main {
     overflow-y: auto;
     grid-row: 2;
 }
 
-.app > div:nth-child(3) {
+.app > footer {
     grid-row: 3;
 }

@@ -1,0 +1,7 @@
+.name-entry {
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+}

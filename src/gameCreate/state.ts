@@ -2,7 +2,8 @@ import type { Player } from '../game/model';
 
 export enum GameCreateMode {
     idle,
-    submitting
+    validating,
+    submitReady
 }
 
 export interface GameCreateState {
@@ -10,12 +11,14 @@ export interface GameCreateState {
     nextPlayerId: number;
     players: Player[];
     playerValidations: Record<number,string>;
+    playerNameDuplicates: Set<string>;
     userCards: Set<string>;
-    userCardsValidation?: string;
+    formValidations: string[];
 }
 
 export const getInitialGameCreateState = (): GameCreateState => {
     return {
+        formValidations: [],
         gameCreateMode: GameCreateMode.idle,
         nextPlayerId: 2,
         players: [
@@ -29,6 +32,7 @@ export const getInitialGameCreateState = (): GameCreateState => {
             }
         ],
         playerValidations: {},
+        playerNameDuplicates: new Set<string>(),
         userCards: new Set<string>()
     };
 };
