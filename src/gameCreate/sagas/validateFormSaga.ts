@@ -17,8 +17,10 @@ export function* validateFormSaga() {
         const playerValidations: ValidationResult[] = yield all(state.players.map(s => call(validatePlayerName, s)));
         yield put(setPlayerValidationAction(playerValidations));
 
-        if (formValidations.length > 0 || playerNameDuplicates.size > 0 || playerValidations.reduce((p,c) => p+c, '')) {
-            console.log('here');
+        if (formValidations.length > 0 ||
+            playerNameDuplicates.size > 0 ||
+            playerValidations.map(s => s.value).reduce((p,c) => p+c, '')) {
+
             yield put(validateFormAction.failed);
             return;
         }
