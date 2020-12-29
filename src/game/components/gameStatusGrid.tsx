@@ -3,6 +3,7 @@ import { DetailsList, IColumn, IGroup, SelectionMode } from '@fluentui/react';
 import { Game } from '../model';
 import { GameStatusEntry, getGameStatusEntries } from '../utils';
 import { GameStatusGridField } from './gameStatusGridField';
+import { deck } from '../../shared/constants';
 
 export interface GameStatusGridProps {
     game: Game;
@@ -16,7 +17,30 @@ export const GameStatusGrid: React.FC<GameStatusGridProps> = ({game}: GameStatus
     }, [assertions]);
 
     const groups: IGroup[] = React.useMemo(() => {
-        return [];
+        return [
+            {
+                count: deck.characterCards.length,
+                key: 'characters',
+                level: 0,
+                name: 'Characters',
+                startIndex: 0,
+
+            },
+            {
+                count: deck.weaponCards.length,
+                key: 'weapons',
+                level: 0,
+                name: 'Weapons',
+                startIndex: deck.characterCards.length,
+                },
+            {
+                count: deck.roomCards.length,
+                key: 'rooms',
+                name: 'Rooms',
+                startIndex: deck.characterCards.length + deck.weaponCards.length,
+                level: 0
+            },
+        ];
     }, []);
 
     const columns: IColumn[] = React.useMemo(() => {
@@ -40,7 +64,10 @@ export const GameStatusGrid: React.FC<GameStatusGridProps> = ({game}: GameStatus
                 maxWidth: 100,
                 name: s.name,
                 onRender: (item: GameStatusEntry) => // eslint-disable-line react/display-name
-                    <GameStatusGridField playerId={s.id} gameStatusEntry={item} />
+                    <GameStatusGridField
+                        playerId={s.id}
+                        gameStatusEntry={item}
+                    />
             }))
         ];
     }, [players]);
@@ -48,7 +75,7 @@ export const GameStatusGrid: React.FC<GameStatusGridProps> = ({game}: GameStatus
     return (
         <DetailsList
             selectionMode={SelectionMode.none}
-            // groups={groups}
+            groups={groups}
             items={items}
             columns={columns}
         />
