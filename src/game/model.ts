@@ -26,7 +26,7 @@ export class Suspicion {
 export class Alibi {
     card: string;
     from: string;
-};
+}
 
 export enum AssertionType {
     DoesNotHave,

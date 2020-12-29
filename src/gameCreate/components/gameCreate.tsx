@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, Overlay } from '@fluentui/react';
+import { Overlay } from '@fluentui/react';
 import { GameInProgressWarning } from '../../shared/components/gameInProgressWarning';
 import { useGameCreateState } from '../hooks/useGameCreateState';
 import { GameCreateStateContext } from '../context';
@@ -8,6 +8,7 @@ import { CardSelection } from './cardToggles';
 import { NameEntries } from './nameEntries';
 import { SubmitStatus } from './submitStatus';
 import { SubmitButton } from './submitButton';
+import { PageTitle } from '../../shared/components/pageTitle';
 import './gameCreate.scss';
 
 export const GameCreate: React.FC = () => {
@@ -19,9 +20,7 @@ export const GameCreate: React.FC = () => {
             <GameInProgressWarning/>
             <GameCreateStateContext.Provider value={[state,dispatch]}>
                 <div className="content">
-                    <h2>
-                        <Text block={true} variant={'large'}>Start a game</Text>
-                    </h2>
+                    <PageTitle title="Start a game"/>
                     <NameEntries/>
                     <CardSelection/>
                     <SubmitStatus/>

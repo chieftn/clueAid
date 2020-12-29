@@ -1,5 +1,14 @@
 import { reducerWithoutInitialState } from 'typescript-fsa-reducers';
+import { Game } from './model';
 import { GameState } from './state';
-import { } from './actions';
+import { initializeGameAction } from './actions';
 
-export const gameStateReducer = reducerWithoutInitialState<GameState>();
+export const gameStateReducer = reducerWithoutInitialState<GameState>()
+    .case(initializeGameAction, (state: GameState, payload: Game) => {
+        const updatedState = {...state};
+        updatedState.game = payload;
+
+        console.log(JSON.stringify(updatedState.game))
+
+        return updatedState;
+    });

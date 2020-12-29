@@ -1,13 +1,27 @@
 import * as React from 'react';
 import { PrimaryButton } from '@fluentui/react';
+import { useHistory } from 'react-router-dom';
 import { useGameCreateStateContext } from '../hooks/useGameCreateStateContext';
 import { validateFormAction } from '../actions';
-// import { useGameStateContext } from '../../game/hooks/useGameStateContext';
+import { useGameStateContext } from '../../game/hooks/useGameStateContext';
+import { initializeGameAction } from '../../game/actions';
+import { PATHS } from '../../shared/constants';
 import { GameCreateMode } from '../state';
+import { getGame } from '../utils';
 
 export const SubmitButton: React.FC = () => {
-    const [{gameCreateMode}, gameCreateDispatch ] = useGameCreateStateContext();
-    // const [gameState, gameDispatch] = useGameStateContext();
+    const { push } = useHistory();
+    const [{gameCreateMode, players, userCards}, gameCreateDispatch ] = useGameCreateStateContext();
+    const [,gameDispatch] = useGameStateContext();
+
+    React.useEffect(() => {
+        if (gameCreateMode === GameCreateMode.submitReady) {
+            const game = getGame(players, userCards);
+            gameDispatch(initializeGameAction(game));
+
+            push(PATHS.STATUS);
+        }
+    }, [gameCreateMode])
 
     const onSubmitClick = () => {
         gameCreateDispatch(validateFormAction.started);

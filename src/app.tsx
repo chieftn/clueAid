@@ -5,7 +5,7 @@ import { Banner } from './shared/components/banner';
 import { Footer } from './shared/components/footer';
 import { Home } from './shared/components/home';
 import { GameCreate } from './gameCreate/components/gameCreate';
-import { GameStatus } from './gameStatus/components/gameStatus';
+import { GameStatus } from './game/components/gameStatus';
 import { PATHS } from './shared/constants';
 import { useGameState } from './game/hooks/useGameState';
 import { GameStateContext } from './game/context';

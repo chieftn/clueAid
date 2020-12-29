@@ -1,4 +1,4 @@
-import { Player } from '../game/model';
+import { Player, Game, Assertion, AssertionType } from '../game/model';
 import { GameCreateState, ValidationResult } from "./state";
 import { deck } from '../shared/constants';
 
@@ -84,4 +84,15 @@ export const hasErrors = (parameters: HasErrorsParameters): boolean => {
         }
 
     return false;
+}
+
+export const getGame = (players: Player[], cards: Set<string>): Game => {
+    const assertions: Assertion[] = [];
+    cards.forEach(s => assertions.push({ playerId: 0, assertionType: AssertionType.Has, card: s}));
+
+    return {
+        assertions,
+        players,
+        suspicions: []
+    };
 }
