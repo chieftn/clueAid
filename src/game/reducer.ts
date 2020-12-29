@@ -8,7 +8,5 @@ export const gameStateReducer = reducerWithoutInitialState<GameState>()
         const updatedState = {...state};
         updatedState.game = payload;
 
-        console.log(JSON.stringify(updatedState.game))
-
         return updatedState;
     });

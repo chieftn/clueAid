@@ -13,6 +13,10 @@ export const validatePlayerName = (player: Player): ValidationResult => {
         result.value = 'Please enter a name for this player.';
     }
 
+    if (name.length > 50) {
+        result.value = 'Please enter a shorter name.';
+    }
+
     return result;
 };
 
@@ -20,7 +24,7 @@ export const validateForm = (state: GameCreateState): string[] => {
     const validations = [];
 
     if (state.players.length < 2) {
-        validations.push('You seem lonely, why not add some more players.');
+        validations.push('You seem lonely, why not add some more players?');
     }
 
     if (state.userCards.size === 0) {
@@ -87,7 +91,18 @@ export const hasErrors = (parameters: HasErrorsParameters): boolean => {
 }
 
 export const getGame = (players: Player[], cards: Set<string>): Game => {
-    const assertions: Assertion[] = [];
+    const getAssertion = (s: string) => ({
+        assertionType: cards.has(s)?  AssertionType.Has: AssertionType.DoesNotHave,
+        card: s,
+        playerId: 0,
+    })
+
+    const assertions: Assertion[] = [
+        ...deck.characterCards.map(s => getAssertion(s)),
+        ...deck.weaponCards.map(s => getAssertion(s)),
+        ...deck.roomCards.map(s => getAssertion(s))
+    ];
+
     cards.forEach(s => assertions.push({ playerId: 0, assertionType: AssertionType.Has, card: s}));
 
     return {
