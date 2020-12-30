@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AssertionType } from '../model';
+import { AssertionType } from '../../shared/model';
 import { GameStatusEntry } from '../utils';
 import './gameStatusGridField.scss';
 

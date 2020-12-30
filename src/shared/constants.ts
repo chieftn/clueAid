@@ -1,4 +1,4 @@
-import type { Deck } from '../game/model';
+import type { Deck } from './model';
 
 export const PATHS = {
     HOME: '/',
@@ -6,7 +6,7 @@ export const PATHS = {
     STATUS: '/status'
 }
 
-export const deck: Deck = {
+export const DECK: Deck = {
     characterCards: [
         'Miss Scarlett',
         'Professor Plum',

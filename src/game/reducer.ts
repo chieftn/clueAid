@@ -1,5 +1,5 @@
 import { reducerWithoutInitialState } from 'typescript-fsa-reducers';
-import { Game } from './model';
+import { Game } from '../shared/model';
 import { GameState } from './state';
 import { initializeGameAction } from './actions';
 

@@ -1,4 +1,4 @@
-import type { Player } from '../game/model';
+import type { Player } from '../shared/model';
 
 export enum GameCreateMode {
     idle,

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IconButton, TextField } from '@fluentui/react';
-import type { Player } from '../../game/model';
+import type { Player } from '../../shared/model';
 import { movePlayerOrderAction, removePlayerAction, renamePlayerAction } from '../actions';
 import { useDebouncedCallback } from 'use-debounce';
 import './nameEntry.scss';

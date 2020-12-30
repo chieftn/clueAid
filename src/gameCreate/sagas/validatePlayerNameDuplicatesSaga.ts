@@ -1,6 +1,6 @@
 import { Action } from 'typescript-fsa';
 import { call, put, select } from 'redux-saga/effects';
-import { Player } from '../../game/model';
+import { Player } from '../../shared/model';
 import { GameCreateState } from '../state';
 import { getDuplicatePlayerNames } from '../utils';
 import { setPlayerDuplicatesAction } from '../actions';

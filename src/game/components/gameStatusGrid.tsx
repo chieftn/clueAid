@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { DetailsList, IColumn, IGroup, SelectionMode } from '@fluentui/react';
-import { Game } from '../model';
+import { Game } from '../../shared/model';
 import { GameStatusEntry, getGameStatusEntries } from '../utils';
 import { GameStatusGridField } from './gameStatusGridField';
-import { deck } from '../../shared/constants';
+import { DECK } from '../../shared/constants';
 
 export interface GameStatusGridProps {
     game: Game;
@@ -19,7 +19,7 @@ export const GameStatusGrid: React.FC<GameStatusGridProps> = ({game}: GameStatus
     const groups: IGroup[] = React.useMemo(() => {
         return [
             {
-                count: deck.characterCards.length,
+                count: DECK.characterCards.length,
                 key: 'characters',
                 level: 0,
                 name: 'Characters',
@@ -27,17 +27,17 @@ export const GameStatusGrid: React.FC<GameStatusGridProps> = ({game}: GameStatus
 
             },
             {
-                count: deck.weaponCards.length,
+                count: DECK.weaponCards.length,
                 key: 'weapons',
                 level: 0,
                 name: 'Weapons',
-                startIndex: deck.characterCards.length,
+                startIndex: DECK.characterCards.length,
                 },
             {
-                count: deck.roomCards.length,
+                count: DECK.roomCards.length,
                 key: 'rooms',
                 name: 'Rooms',
-                startIndex: deck.characterCards.length + deck.weaponCards.length,
+                startIndex: DECK.characterCards.length + DECK.weaponCards.length,
                 level: 0
             },
         ];

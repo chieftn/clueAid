@@ -1,4 +1,4 @@
-import type { Game } from './model';
+import type { Game } from '../shared/model';
 
 export interface GameState {
     game?: Game;

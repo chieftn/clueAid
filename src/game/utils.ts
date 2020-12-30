@@ -1,5 +1,5 @@
-import { Assertion, AssertionType } from './model';
-import { deck } from '../shared/constants';
+import { Assertion, AssertionType } from '../shared/model';
+import { DECK } from '../shared/constants';
 
 export interface GameStatusEntry {
     card: string;
@@ -25,8 +25,8 @@ export const getGameStatusEntries = (assertions: Assertion[]): GameStatusEntry[]
     }
 
     return [
-        ...deck.characterCards.map(s => getGameStatusEntry(s)),
-        ...deck.weaponCards.map(s => getGameStatusEntry(s)),
-        ...deck.roomCards.map(s => getGameStatusEntry(s)),
+        ...DECK.characterCards.map(s => getGameStatusEntry(s)),
+        ...DECK.weaponCards.map(s => getGameStatusEntry(s)),
+        ...DECK.roomCards.map(s => getGameStatusEntry(s)),
     ]
 }

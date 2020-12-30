@@ -1,6 +1,6 @@
 import { Action } from 'typescript-fsa';
 import { call, put } from 'redux-saga/effects';
-import { Player } from '../../game/model';
+import { Player } from '../../shared/model';
 import { validatePlayerName } from '../utils';
 import { ValidationResult } from '../state';
 import { setPlayerValidationAction } from '../actions';

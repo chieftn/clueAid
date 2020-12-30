@@ -1,4 +1,4 @@
-import type { Player } from '../game/model';
+import type { Player } from '../shared/model';
 import { reducerWithoutInitialState } from 'typescript-fsa-reducers';
 import { GameCreateMode, GameCreateState, ValidationResult } from './state';
 import {

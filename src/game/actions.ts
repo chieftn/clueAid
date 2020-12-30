@@ -1,5 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { Suspicion, Game } from './model';
+import { Suspicion, Game } from '../shared/model';
 
 export const GAME = 'GAME';
 const actionCreator = actionCreatorFactory(GAME);

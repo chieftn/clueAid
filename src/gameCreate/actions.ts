@@ -1,4 +1,4 @@
-import type { Player } from '../game/model';
+import type { Player } from '../shared/model';
 import actionCreatorFactory from 'typescript-fsa';
 import { GameCreateMode, ValidationResult } from './state';
 

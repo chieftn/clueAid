@@ -1,6 +1,6 @@
-import { Player, Game, Assertion, AssertionType } from '../game/model';
+import { Player, Game, Assertion, AssertionType } from '../shared/model';
 import { GameCreateState, ValidationResult } from "./state";
-import { deck } from '../shared/constants';
+import { DECK } from '../shared/constants';
 
 export const validatePlayerName = (player: Player): ValidationResult => {
     const { id, name } = player;
@@ -31,15 +31,15 @@ export const validateForm = (state: GameCreateState): string[] => {
         validations.push('Please tell me what cards you have.');
     }
 
-    if (selectedAllCards(deck.characterCards, state.userCards)) {
+    if (selectedAllCards(DECK.characterCards, state.userCards)) {
         validations.push('Please do not pick all of the suspect cards.');
     }
 
-    if (selectedAllCards(deck.weaponCards, state.userCards)) {
+    if (selectedAllCards(DECK.weaponCards, state.userCards)) {
         validations.push('Please do not pick all of the weapon cards.');
     }
 
-    if (selectedAllCards(deck.roomCards, state.userCards)) {
+    if (selectedAllCards(DECK.roomCards, state.userCards)) {
         validations.push('Pleas do not pick all of the room cards.');
     }
 
@@ -98,9 +98,9 @@ export const getGame = (players: Player[], cards: Set<string>): Game => {
     })
 
     const assertions: Assertion[] = [
-        ...deck.characterCards.map(s => getAssertion(s)),
-        ...deck.weaponCards.map(s => getAssertion(s)),
-        ...deck.roomCards.map(s => getAssertion(s))
+        ...DECK.characterCards.map(s => getAssertion(s)),
+        ...DECK.weaponCards.map(s => getAssertion(s)),
+        ...DECK.roomCards.map(s => getAssertion(s))
     ];
 
     cards.forEach(s => assertions.push({ playerId: 0, assertionType: AssertionType.Has, card: s}));
