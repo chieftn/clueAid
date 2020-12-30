@@ -3,7 +3,8 @@ import type { Deck } from './model';
 export const PATHS = {
     HOME: '/',
     CREATE: '/create',
-    STATUS: '/status'
+    STATUS: '/status',
+    SUSPICION: '/suspicion'
 }
 
 export const DECK: Deck = {
