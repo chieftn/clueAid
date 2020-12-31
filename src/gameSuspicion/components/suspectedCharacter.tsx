@@ -18,6 +18,7 @@ export const SuspectedCharacter: React.FC = () => {
                 options={state.suspectedCharacterOptions}
                 selectedKey={state.suspectedCharacter}
                 onChange={onChange}
+                required={true}
             />
         </div>
     );

@@ -1,4 +1,5 @@
 import { Player, Game, Assertion, AssertionType } from '../shared/model';
+import { ME, NOONE } from '../shared/constants';
 import { GameCreateState, ValidationResult } from "./state";
 import { DECK } from '../shared/constants';
 
@@ -17,8 +18,8 @@ export const validatePlayerName = (player: Player): ValidationResult => {
         result.value = 'Please enter a shorter name.';
     }
 
-    if (name === 'No one') {
-        result.value = 'I need this name. Can you use another';
+    if (name === NOONE || name === ME) {
+        result.value = 'I need this name. Please use another.';
     }
 
     return result;

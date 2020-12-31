@@ -18,6 +18,7 @@ export const SuspectedWeapon: React.FC = () => {
                 options={state.suspectedWeaponOptions}
                 selectedKey={state.suspectedWeapon}
                 onChange={onChange}
+                required={true}
             />
         </div>
     );

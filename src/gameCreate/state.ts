@@ -1,4 +1,5 @@
 import type { Player } from '../shared/model';
+import { ME } from '../shared/constants';
 
 export enum GameCreateMode {
     idle,
@@ -29,7 +30,7 @@ export const getInitialGameCreateState = (): GameCreateState => {
         players: [
             {
                 id: 0,
-                name: 'Me'
+                name: ME
             },
             {
                 id: 1,

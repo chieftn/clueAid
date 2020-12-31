@@ -1,8 +1,9 @@
 import { IDropdownOption } from '@fluentui/react';
+import { NOONE } from '../shared/constants';
 import { GameSuspicionCreateState } from './state';
 
 export const getNoAlibiOption = (): IDropdownOption => {
-    return { key: -1, text: 'No one'};
+    return { key: -1, text: NOONE};
 };
 
 export const alibiCardEnabled = (state: GameSuspicionCreateState): boolean => {

@@ -1,5 +1,8 @@
 import type { Deck } from './model';
 
+export const ME = 'Me';
+export const NOONE = 'No one';
+
 export const PATHS = {
     HOME: '/',
     CREATE: '/create',

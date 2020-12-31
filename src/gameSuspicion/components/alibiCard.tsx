@@ -22,6 +22,7 @@ export const AlibiCard: React.FC = () => {
                     options={state.alibiCardOptions}
                     selectedKey={state.alibiCard}
                     onChange={onChange}
+                    required={true}
                 />
             </div>
         );

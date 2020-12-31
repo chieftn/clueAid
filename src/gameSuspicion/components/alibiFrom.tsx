@@ -20,6 +20,7 @@ export const AlibiFrom: React.FC = () => {
                 options={state.alibiFromOptions}
                 selectedKey={state.alibiFrom}
                 onChange={onChange}
+                required={true}
             />
         </div>
     );

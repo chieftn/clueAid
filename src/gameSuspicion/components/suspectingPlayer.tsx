@@ -18,6 +18,7 @@ export const SuspectingPlayer: React.FC = () => {
                 options={state.suspectingPlayerOptions}
                 selectedKey={state.suspectingPlayer}
                 onChange={onChange}
+                required={true}
             />
         </div>
     );

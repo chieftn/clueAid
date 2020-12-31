@@ -18,6 +18,7 @@ export const SuspectedRoom: React.FC = () => {
                 options={state.suspectedRoomOptions}
                 selectedKey={state.suspectedRoom}
                 onChange={onChange}
+                required={true}
             />
         </div>
     );
