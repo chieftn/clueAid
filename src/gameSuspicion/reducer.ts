@@ -59,7 +59,7 @@ export const gameSuspicionCreateStateReducer = reducerWithoutInitialState<GameSu
         const updatedState = {...state};
 
         updatedState.suspectedCharacter = payload;
-        updatedState.alibiCardOptions = updatedState.alibiCardOptions.splice(0, 1, updatedState.suspectedCharacterOptions.filter(s => s.key === payload)[0]);
+        updatedState.alibiCardOptions.splice(0, 1, updatedState.suspectedCharacterOptions.filter(s => s.key === payload)[0]);
         updatedState.alibiCard = undefined;
 
         return updatedState;
@@ -68,7 +68,7 @@ export const gameSuspicionCreateStateReducer = reducerWithoutInitialState<GameSu
         const updatedState = {...state};
 
         updatedState.suspectedWeapon = payload;
-        updatedState.alibiCardOptions = updatedState.alibiCardOptions.splice(1, 1, updatedState.suspectedWeaponOptions.filter(s => s.key === payload)[0]);
+        updatedState.alibiCardOptions.splice(1, 1, updatedState.suspectedWeaponOptions.filter(s => s.key === payload)[0]);
         updatedState.alibiCard = undefined;
 
         return updatedState;
@@ -77,7 +77,7 @@ export const gameSuspicionCreateStateReducer = reducerWithoutInitialState<GameSu
         const updatedState = {...state};
 
         updatedState.suspectedRoom = payload;
-        updatedState.alibiCardOptions = updatedState.alibiCardOptions.splice(2, 1, updatedState.suspectedRoomOptions.filter(s => s.key === payload)[0]);
+        updatedState.alibiCardOptions.splice(2, 1, updatedState.suspectedRoomOptions.filter(s => s.key === payload)[0]);
         updatedState.alibiCard = undefined;
 
         return updatedState;
