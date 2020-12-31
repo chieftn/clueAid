@@ -10,7 +10,7 @@ export const AlibiFrom: React.FC = () => {
         dispatch(setAlibiFromAction(item.key as number))
     };
 
-    console.log('alibi' + state.alibiFrom);
+    console.log('alibi ' + state.alibiFrom);
 
     return (
         <div className="form-element">

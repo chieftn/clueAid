@@ -11,6 +11,8 @@ export const AlibiCard: React.FC = () => {
         dispatch(setAlibiCardAction(item.key as string))
     };
 
+    console.log('card ' + state.alibiCard);
+
     if (alibiCardEnabled(state)) {
         return (
             <div className="form-element">

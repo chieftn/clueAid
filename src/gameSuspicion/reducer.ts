@@ -50,7 +50,7 @@ export const gameSuspicionCreateStateReducer = reducerWithoutInitialState<GameSu
         ];
 
         if (updatedState.alibiFrom === payload) {
-            updatedState.alibiFrom = undefined;
+            updatedState.alibiFrom = -1;
         }
 
         return updatedState;
@@ -59,8 +59,12 @@ export const gameSuspicionCreateStateReducer = reducerWithoutInitialState<GameSu
         const updatedState = {...state};
 
         updatedState.suspectedCharacter = payload;
+        updatedState.alibiCardOptions = [...state.alibiCardOptions];
         updatedState.alibiCardOptions.splice(0, 1, updatedState.suspectedCharacterOptions.filter(s => s.key === payload)[0]);
-        updatedState.alibiCard = undefined;
+
+        if (state.alibiCard === state.alibiCardOptions[0].key) {
+            updatedState.alibiCard = updatedState.alibiCardOptions[0].key as string;
+        }
 
         return updatedState;
     })
@@ -68,8 +72,12 @@ export const gameSuspicionCreateStateReducer = reducerWithoutInitialState<GameSu
         const updatedState = {...state};
 
         updatedState.suspectedWeapon = payload;
+        updatedState.alibiCardOptions = [...state.alibiCardOptions];
         updatedState.alibiCardOptions.splice(1, 1, updatedState.suspectedWeaponOptions.filter(s => s.key === payload)[0]);
-        updatedState.alibiCard = undefined;
+
+        if (state.alibiCard === state.alibiCardOptions[1].key) {
+            updatedState.alibiCard = updatedState.alibiCardOptions[1].key as string;
+        }
 
         return updatedState;
     })
@@ -77,8 +85,12 @@ export const gameSuspicionCreateStateReducer = reducerWithoutInitialState<GameSu
         const updatedState = {...state};
 
         updatedState.suspectedRoom = payload;
+        updatedState.alibiCardOptions = [...state.alibiCardOptions];
         updatedState.alibiCardOptions.splice(2, 1, updatedState.suspectedRoomOptions.filter(s => s.key === payload)[0]);
-        updatedState.alibiCard = undefined;
+
+        if (state.alibiCard === state.alibiCardOptions[2].key) {
+            updatedState.alibiCard = updatedState.alibiCardOptions[2].key as string;
+        }
 
         return updatedState;
     })
