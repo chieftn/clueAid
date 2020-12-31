@@ -3,6 +3,7 @@ import { Dropdown, IDropdownOption } from '@fluentui/react';
 import { useGameSuspicionCreateStateContext } from '../hooks/useGameSuspicionCreateStateContext';
 import { setAlibiCardAction } from '../actions';
 import { alibiCardEnabled } from '../utils';
+import { GameSuspicionCreateMode } from '../state';
 
 export const AlibiCard: React.FC = () => {
     const [ state, dispatch ] = useGameSuspicionCreateStateContext();
@@ -23,6 +24,7 @@ export const AlibiCard: React.FC = () => {
                     selectedKey={state.alibiCard}
                     onChange={onChange}
                     required={true}
+                    disabled={state.mode !== GameSuspicionCreateMode.idle}
                 />
             </div>
         );

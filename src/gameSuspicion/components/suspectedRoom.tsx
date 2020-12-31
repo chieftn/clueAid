@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Dropdown, IDropdownOption } from '@fluentui/react';
 import { useGameSuspicionCreateStateContext } from '../hooks/useGameSuspicionCreateStateContext';
 import { setSuspectedRoomAction } from '../actions';
+import { GameSuspicionCreateMode } from '../state';
 
 export const SuspectedRoom: React.FC = () => {
     const [ state, dispatch ] = useGameSuspicionCreateStateContext();
@@ -19,6 +20,7 @@ export const SuspectedRoom: React.FC = () => {
                 selectedKey={state.suspectedRoom}
                 onChange={onChange}
                 required={true}
+                disabled={state.mode !== GameSuspicionCreateMode.idle}
             />
         </div>
     );

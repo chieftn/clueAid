@@ -11,3 +11,4 @@ export const setSuspectedWeaponAction = actionCreator<string>('SET_SUSPECTED_WEA
 export const setSuspectedRoomAction = actionCreator<string>('SET_SUSPECTED_ROOM');
 export const setAlibiFromAction = actionCreator<number>('SET_ALIBI_FROM');
 export const setAlibiCardAction = actionCreator<string>('SET_ALIBI_CARD');
+export const validateFormAction  = actionCreator.async<void, void, void>('VALIDATE');

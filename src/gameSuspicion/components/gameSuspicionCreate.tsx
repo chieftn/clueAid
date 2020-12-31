@@ -13,6 +13,7 @@ import { SuspectedCharacter} from './suspectedCharacter';
 import { SuspectedRoom } from './suspectedRoom';
 import { SuspectedWeapon } from './suspectedWeapon';
 import { SuspectingPlayer } from './suspectingPlayer';
+import { Commands } from './commands';
 import { GameSuspicionCreateStateContext } from '../context';
 import './gameSuspicionCreate.scss';
 
@@ -42,6 +43,7 @@ export const GameSuspicionCreate: React.FC = () => {
                     <SuspectedRoom/>
                     <AlibiFrom/>
                     <AlibiCard/>
+                    <Commands/>
                 </GameSuspicionCreateStateContext.Provider>
             }
         </div>
