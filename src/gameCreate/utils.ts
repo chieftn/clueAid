@@ -18,7 +18,11 @@ export const validatePlayerName = (player: Player): ValidationResult => {
         result.value = 'Please enter a shorter name.';
     }
 
-    if (name === NOONE || name === ME) {
+    if (name === ME && id !== 0) {
+        result.value = "I need this name. Please use another";
+    }
+
+    if (name === NOONE) {
         result.value = 'I need this name. Please use another.';
     }
 
