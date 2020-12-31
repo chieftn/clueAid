@@ -1,4 +1,4 @@
-import { Player } from '../shared/model';
+import { IDropdownOption } from '@fluentui/react';
 
 export enum GameSuspicionCreateMode {
     uninitialized,
@@ -7,30 +7,30 @@ export enum GameSuspicionCreateMode {
     submitReady
 }
 
-
 export interface GameSuspicionCreateState {
     alibiFrom?: number;
+    alibiFromOptions: IDropdownOption[];
     alibiCard?: string;
-    allowedAlibiFrom: Player[];
-    allowedAlibiCards: string[];
-    showAlibiCard: boolean;
+    alibiCardOptions: IDropdownOption[];
+    suspectedCharacter?: string;
+    suspectedCharacterOptions: IDropdownOption[];
+    suspectedWeapon?: string;
+    suspectedWeaponOptions: IDropdownOption[];
+    suspectedRoom?: string;
+    suspectedRoomOptions: IDropdownOption[];
+    suspectingPlayerOptions: IDropdownOption[];
     suspectingPlayer?: number;
-    suspectedCharacter: string;
-    suspectedWeapon: string;
-    suspectedRoom: string;
-    players: Player[];
     mode: GameSuspicionCreateMode;
 }
 
 export const getInitialGameSuspicionCreateState = (): GameSuspicionCreateState => {
     return {
-        allowedAlibiFrom: [],
-        allowedAlibiCards: [],
-        showAlibiCard: false,
+        alibiFromOptions: [],
+        alibiCardOptions: [],
         mode: GameSuspicionCreateMode.uninitialized,
-        players: [],
-        suspectedCharacter: '',
-        suspectedWeapon: '',
-        suspectedRoom: '',
+        suspectedRoomOptions: [],
+        suspectedCharacterOptions: [],
+        suspectedWeaponOptions: [],
+        suspectingPlayerOptions: [],
     };
 };
