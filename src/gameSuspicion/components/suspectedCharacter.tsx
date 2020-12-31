@@ -14,7 +14,7 @@ export const SuspectedCharacter: React.FC = () => {
         <div className="form-element">
             <Dropdown
                 ariaLabel="Specify suspected character."
-                label="Suspects:"
+                label="suspects:"
                 options={state.suspectedCharacterOptions}
                 selectedKey={state.suspectedCharacter}
                 onChange={onChange}
