@@ -17,7 +17,7 @@ export const AlibiFrom: React.FC = () => {
         <div className="form-element">
             <Dropdown
                 ariaLabel="Specify who provided the alibi."
-                label="Alibi from:"
+                label="Alibi from"
                 options={state.alibiFromOptions}
                 selectedKey={state.alibiFrom}
                 onChange={onChange}
