@@ -8,6 +8,13 @@ import { GameSuspicionCreateMode } from '../state';
 export const Commands: React.FC = () => {
     const history = useHistory();
     const [ state, dispatch ] = useGameSuspicionCreateStateContext();
+    const { mode } = state;
+
+    React.useEffect(() => {
+        if (mode === GameSuspicionCreateMode.submitReady) {
+            console.log('submit ready');
+        }
+    }, [mode])
 
     const onSubmitClick = () => {
         dispatch(validateFormAction.started);
@@ -21,7 +28,7 @@ export const Commands: React.FC = () => {
         <div className='commands'>
             <PrimaryButton
                 className="command"
-                text="Ok"
+                text="OK"
                 ariaLabel="Submit suspicion"
                 onClick={onSubmitClick}
                 disabled={state.mode !== GameSuspicionCreateMode.idle}
@@ -31,6 +38,7 @@ export const Commands: React.FC = () => {
                 text="Cancel"
                 ariaLabel="Cancel this suspicion"
                 onClick={onCancelClick}
+                disabled={state.mode !== GameSuspicionCreateMode.idle}
             />
         </div>
     );

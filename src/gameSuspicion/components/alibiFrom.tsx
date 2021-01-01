@@ -23,6 +23,7 @@ export const AlibiFrom: React.FC = () => {
                 onChange={onChange}
                 required={true}
                 disabled={state.mode !== GameSuspicionCreateMode.idle}
+                errorMessage={state.alibiFromValidation}
             />
         </div>
     );

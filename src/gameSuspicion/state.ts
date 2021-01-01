@@ -9,8 +9,10 @@ export enum GameSuspicionCreateMode {
 
 export interface GameSuspicionCreateState {
     alibiFrom?: number;
+    alibiFromValidation?: string;
     alibiFromOptions: IDropdownOption[];
     alibiCard?: string;
+    alibiCardValidation?: string;
     alibiCardOptions: IDropdownOption[];
     suspectedCharacter?: string;
     suspectedCharacterOptions: IDropdownOption[];
@@ -20,6 +22,7 @@ export interface GameSuspicionCreateState {
     suspectedRoomOptions: IDropdownOption[];
     suspectingPlayerOptions: IDropdownOption[];
     suspectingPlayer?: number;
+    suspectingPlayerValidation?: string;
     mode: GameSuspicionCreateMode;
 }
 

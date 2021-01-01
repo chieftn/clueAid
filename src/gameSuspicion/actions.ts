@@ -11,4 +11,13 @@ export const setSuspectedWeaponAction = actionCreator<string>('SET_SUSPECTED_WEA
 export const setSuspectedRoomAction = actionCreator<string>('SET_SUSPECTED_ROOM');
 export const setAlibiFromAction = actionCreator<number>('SET_ALIBI_FROM');
 export const setAlibiCardAction = actionCreator<string>('SET_ALIBI_CARD');
-export const validateFormAction  = actionCreator.async<void, void, void>('VALIDATE');
+
+export interface FormValidationResult {
+    alibiCardValidation?: string;
+    alibiPlayerValidation?: string;
+    suspectingPlayerValidation?: string;
+}
+export const validateFormAction = actionCreator.async<void, void, FormValidationResult>('VALIDATE');
+export const setSuspectingPlayerValidationAction = actionCreator<string>("VALIDATE_SUSPECTING_PLAYER");
+export const setAlibiPlayerValidationAction = actionCreator<string>("VALIDATE_ALIBI_PLAYER");
+export const setAlibiCardValidationAction = actionCreator<string>("VALIDATE_ALIBI_CARD");

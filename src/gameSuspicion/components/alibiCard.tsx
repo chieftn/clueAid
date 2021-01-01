@@ -25,6 +25,8 @@ export const AlibiCard: React.FC = () => {
                     onChange={onChange}
                     required={true}
                     disabled={state.mode !== GameSuspicionCreateMode.idle}
+                    errorMessage={state.alibiCardValidation}
+
                 />
             </div>
         );

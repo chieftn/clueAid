@@ -10,7 +10,12 @@ import {
     setSuspectedRoomAction,
     setSuspectedWeaponAction,
     setAlibiFromAction,
-    setAlibiCardAction
+    setAlibiCardAction,
+    setAlibiCardValidationAction,
+    setAlibiPlayerValidationAction,
+    setSuspectingPlayerValidationAction,
+    validateFormAction,
+    FormValidationResult
 } from './actions';
 
 export const gameSuspicionCreateStateReducer = reducerWithoutInitialState<GameSuspicionCreateState>()
@@ -103,6 +108,47 @@ export const gameSuspicionCreateStateReducer = reducerWithoutInitialState<GameSu
     .case(setAlibiFromAction, (state: GameSuspicionCreateState, payload: number) => {
         const updatedState = {...state};
         updatedState.alibiFrom = payload;
+
+        return updatedState;
+    })
+    .case(setAlibiCardValidationAction, (state: GameSuspicionCreateState, payload: string) => {
+        const updatedState = {...state};
+        updatedState.alibiCardValidation = payload;
+
+        return updatedState;
+    })
+    .case(setAlibiPlayerValidationAction, (state: GameSuspicionCreateState, payload: string) => {
+        const updatedState = {...state};
+        updatedState.alibiFromValidation = payload;
+
+        return updatedState;
+    })
+    .case(setSuspectingPlayerValidationAction, (state: GameSuspicionCreateState, payload: string) => {
+        const updatedState = {...state};
+        updatedState.suspectingPlayerValidation = payload;
+
+        return updatedState;
+    })
+    .case(validateFormAction.started, (state: GameSuspicionCreateState) => {
+        const updatedState = {...state};
+        updatedState.mode = GameSuspicionCreateMode.validating;
+
+        return updatedState;
+    })
+    .case(validateFormAction.done, (state: GameSuspicionCreateState) => {
+        const updatedState = {...state};
+        updatedState.mode = GameSuspicionCreateMode.submitReady;
+        updatedState.alibiCardValidation = '';
+        updatedState.alibiFromValidation = '';
+        updatedState.suspectingPlayerValidation = '';
+        return updatedState;
+    })
+    .case(validateFormAction.failed, (state: GameSuspicionCreateState, payload: { error: FormValidationResult}) => {
+        const updatedState = {...state};
+        updatedState.mode = GameSuspicionCreateMode.idle;
+        updatedState.alibiCardValidation = payload.error.alibiCardValidation;
+        updatedState.alibiFromValidation = payload.error.alibiPlayerValidation;
+        updatedState.suspectingPlayerValidation = payload.error.suspectingPlayerValidation;
 
         return updatedState;
     });

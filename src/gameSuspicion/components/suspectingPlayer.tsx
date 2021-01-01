@@ -21,6 +21,7 @@ export const SuspectingPlayer: React.FC = () => {
                 onChange={onChange}
                 required={true}
                 disabled={state.mode !== GameSuspicionCreateMode.idle}
+                errorMessage={state.suspectingPlayerValidation}
             />
         </div>
     );
