@@ -17,15 +17,15 @@ export interface Game {
 
 export class Suspicion {
     alibi?: Alibi;
-    suspectingPlayer: string;
+    suspectingPlayer: number;
     suspectedCharacter: string;
     suspectedWeapon: string;
     suspectedRoom: string;
 }
 
 export class Alibi {
-    card: string;
-    from: string;
+    card?: string;
+    from: number;
 }
 
 export enum AssertionType {

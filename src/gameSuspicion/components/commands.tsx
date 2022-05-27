@@ -2,17 +2,31 @@ import * as React from 'react';
 import { PrimaryButton, DefaultButton } from '@fluentui/react';
 import { useHistory } from 'react-router-dom';
 import { useGameSuspicionCreateStateContext } from '../hooks/useGameSuspicionCreateStateContext';
+import { useGameStateContext } from '../../game/hooks/useGameStateContext';
+import { addSuspicionAction } from '../../game/actions';
 import { validateFormAction } from '../actions';
 import { GameSuspicionCreateMode } from '../state';
 
 export const Commands: React.FC = () => {
     const history = useHistory();
     const [ state, dispatch ] = useGameSuspicionCreateStateContext();
+    const [, gameDispatch] = useGameStateContext();
     const { mode } = state;
 
     React.useEffect(() => {
         if (mode === GameSuspicionCreateMode.submitReady) {
-            console.log('submit ready');
+            gameDispatch(addSuspicionAction({
+                alibi: state.alibiFrom && {
+                    card: state.alibiCard,
+                    from: state.alibiFrom
+                },
+                suspectingPlayer: state.suspectingPlayer,
+                suspectedCharacter: state.suspectedCharacter,
+                suspectedWeapon: state.suspectedWeapon,
+                suspectedRoom: state.suspectedRoom
+            }));
+
+            history.goBack();
         }
     }, [mode])
 
