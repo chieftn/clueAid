@@ -1,6 +1,4 @@
 import * as React from 'react';
-// import { PrimaryButton, DefaultButton } from '@fluentui/react';
-// import { useHistory, Prompt } from 'react-router-dom';
 import { useGameStateContext } from '../../game/hooks/useGameStateContext';
 import { useGameSuspicionCreateState } from '../hooks/useGameSuspicionCreateState';
 import { GameSuspicionCreateMode } from '../state';
@@ -15,7 +13,7 @@ import { SuspectedWeapon } from './suspectedWeapon';
 import { SuspectingPlayer } from './suspectingPlayer';
 import { Commands } from './commands';
 import { GameSuspicionCreateStateContext } from '../context';
-import './gameSuspicionCreate.scss';
+import './gameSuspicionCreate.css';
 
 export const GameSuspicionCreate: React.FC = () => {
     const [{ game }] = useGameStateContext();

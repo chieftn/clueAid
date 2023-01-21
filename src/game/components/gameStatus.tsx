@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PrimaryButton } from '@fluentui/react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { GameNotStartedWarning } from '../../shared/components/gameNotStartedWarning';
 import { useGameStateContext } from '../hooks/useGameStateContext';
 import { PageTitle } from '../../shared/components/pageTitle';
@@ -9,11 +9,11 @@ import { PATHS } from '../../shared/constants';
 import './gameStatus.scss';
 
 export const GameStatus: React.FC = () => {
-    const { push } = useHistory();
+    const navigate = useNavigate();
     const [{ game }] = useGameStateContext();
 
     const onAddSuspicionClick = () => {
-        push(PATHS.SUSPICION);
+        navigate(PATHS.SUSPICION);
     };
 
     return (

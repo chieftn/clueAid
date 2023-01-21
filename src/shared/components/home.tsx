@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { PrimaryButton } from '@fluentui/react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PATHS } from '../constants';
 import './home.scss';
 
 export const Home: React.FC = () => {
-    const { push } = useHistory();
+    const navigate = useNavigate();
 
     const onGetStartedClick = () => {
-        push(PATHS.CREATE);
+        navigate(PATHS.CREATE);
     };
 
     return (

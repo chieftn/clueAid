@@ -8,7 +8,7 @@ export const PATHS = {
     CREATE: '/create',
     STATUS: '/status',
     SUSPICION: '/suspicion'
-}
+};
 
 export const DECK: Deck = {
     characterCards: [
@@ -38,4 +38,6 @@ export const DECK: Deck = {
         'Rope',
         'Wrench'
     ]
-}
+};
+
+

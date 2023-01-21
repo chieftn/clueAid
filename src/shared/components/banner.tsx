@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Text } from '@fluentui/react';
-import './banner.scss';
+import './banner.css';
 
 export const Banner: React.FC = () => {
     return (

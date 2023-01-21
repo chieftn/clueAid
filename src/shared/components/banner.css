@@ -1,8 +1,6 @@
-@import '@fluentui/react/dist/sass/References';
-
 .banner {
-    background-color: $ms-color-sharedCyanBlue10;
-    color: $ms-color-white;
+    background-color: #4f6bed;
+    color: white;
     display: flex;
     align-items: center;
     min-height: 40px;

@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { MessageBar, MessageBarType, Text, MessageBarButton } from '@fluentui/react'
 import { useGameStateContext } from '../../game/hooks/useGameStateContext';
 import { PATHS } from '../constants';
 
 export const GameInProgressWarning: React.FC = () => {
-    const { push } = useHistory();
+    const navigate = useNavigate();
     const [ {game} ] = useGameStateContext();
 
     const onInProgressGameClick = () => {
-        push(PATHS.STATUS);
+        navigate(PATHS.STATUS);
     };
 
     if (game) {

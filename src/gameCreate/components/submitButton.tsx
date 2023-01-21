@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PrimaryButton } from '@fluentui/react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useGameCreateStateContext } from '../hooks/useGameCreateStateContext';
 import { validateFormAction } from '../actions';
 import { useGameStateContext } from '../../game/hooks/useGameStateContext';
@@ -10,7 +10,7 @@ import { GameCreateMode } from '../state';
 import { getGame } from '../utils';
 
 export const SubmitButton: React.FC = () => {
-    const { push } = useHistory();
+    const navigate = useNavigate();
     const [{gameCreateMode, players, userCards}, gameCreateDispatch ] = useGameCreateStateContext();
     const [,gameDispatch] = useGameStateContext();
 
@@ -19,7 +19,7 @@ export const SubmitButton: React.FC = () => {
             const game = getGame(players, userCards);
             gameDispatch(initializeGameAction(game));
 
-            push(PATHS.STATUS);
+            navigate(PATHS.STATUS);
         }
     }, [gameCreateMode])
 

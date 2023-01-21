@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { CardToggle } from './cardToggle';
-import './cardToggleSection.scss';
+import './cardToggleSection.css';
 
 export interface CardToggleSectionProps {
     cards: readonly string[];

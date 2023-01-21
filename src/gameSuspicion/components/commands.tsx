@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PrimaryButton, DefaultButton } from '@fluentui/react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useGameSuspicionCreateStateContext } from '../hooks/useGameSuspicionCreateStateContext';
 import { useGameStateContext } from '../../game/hooks/useGameStateContext';
 import { addSuspicionAction } from '../../game/actions';
@@ -8,7 +8,7 @@ import { validateFormAction } from '../actions';
 import { GameSuspicionCreateMode } from '../state';
 
 export const Commands: React.FC = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [ state, dispatch ] = useGameSuspicionCreateStateContext();
     const [, gameDispatch] = useGameStateContext();
     const { mode } = state;
@@ -26,7 +26,7 @@ export const Commands: React.FC = () => {
                 suspectedRoom: state.suspectedRoom
             }));
 
-            history.goBack();
+            navigate(-1);
         }
     }, [mode])
 
@@ -35,7 +35,7 @@ export const Commands: React.FC = () => {
     };
 
     const onCancelClick = () => {
-        history.goBack();
+        navigate(-1);
     }
 
     return (
