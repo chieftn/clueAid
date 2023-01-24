@@ -24,7 +24,6 @@ export const GameStatusGrid: React.FC<GameStatusGridProps> = ({game}: GameStatus
                 level: 0,
                 name: 'Characters',
                 startIndex: 0,
-
             },
             {
                 count: DECK.weaponCards.length,
@@ -48,7 +47,7 @@ export const GameStatusGrid: React.FC<GameStatusGridProps> = ({game}: GameStatus
             {
                 key: 'card',
                 ariaLabel: 'Card name',
-                isResizable: true,
+                isResizable: false,
                 label: 'Card',
                 minWidth: 10,
                 maxWidth: 100,
@@ -58,7 +57,7 @@ export const GameStatusGrid: React.FC<GameStatusGridProps> = ({game}: GameStatus
             ...players.map((s,i) => ({
                 key: i.toString(),
                 ariaLabel: s.name,
-                isResizable: true,
+                isResizable: false,
                 label: s.name,
                 minWidth: 10,
                 maxWidth: 100,

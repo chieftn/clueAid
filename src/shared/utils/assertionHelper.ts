@@ -10,15 +10,15 @@ export interface Card {
 }
 export type Deck = Record<string, Card>;
 
-export const getNewAssertionsFromSuspicion = (game: Game, newSuspicion: Suspicion): Assertion[] => {
+export const getNewAssertionsFromSuspicion = (game: Game, newSuspicion: Suspicion, suspicionIndex: number): Assertion[] => {
     const { players, suspicions, assertions } = game;
     const playerIds = players.map(s => s.id);
     const playersLinkedList = new LinkedList<Player>(players);
 
-    const deck = getDeckFromAssertions(assertions)
+    const deck = getDeckFromAssertions(assertions);
     const updatedDeck = getNewDeckFromSuspicion(deck, newSuspicion, playerIds, playersLinkedList);
 
-    const newAssertions: Assertion[] = getNewAssertions(updatedDeck, deck);
+    const newAssertions: Assertion[] = getNewAssertions(updatedDeck, deck, suspicionIndex);
     const recursiveAssertions: Assertion[] = [];
 
     if (newAssertions.length > 0) {
@@ -29,7 +29,7 @@ export const getNewAssertionsFromSuspicion = (game: Game, newSuspicion: Suspicio
                 suspicionLoopDeck = getNewDeckFromSuspicion(suspicionLoopDeck, suspicion, playerIds, playersLinkedList);
             }
 
-            const assertionsFromLoop: Assertion[] = getNewAssertions(suspicionLoopDeck, updatedDeck);
+            const assertionsFromLoop: Assertion[] = getNewAssertions(suspicionLoopDeck, updatedDeck, suspicionIndex);
             assertionsGainedFromLoop = assertionsFromLoop.length > 0;
             recursiveAssertions.push(...assertionsFromLoop);
         } while (assertionsGainedFromLoop)
@@ -41,10 +41,10 @@ export const getNewAssertionsFromSuspicion = (game: Game, newSuspicion: Suspicio
 export const getNewDeckFromSuspicion = (currentDeck: Deck, suspicion: Suspicion, playerIds: number[], players: LinkedList<Player>): Deck => {
     const { suspectingPlayer, alibi, suspectedCharacter, suspectedWeapon, suspectedRoom } = suspicion;
     const deck = deepCopyDeck(currentDeck);
-    const suspectingPlayerNode = getSuspectingPlayerNode(suspectingPlayer, players);
+    let playerNode = getSuspectingPlayerNode(suspectingPlayer, players).next;
 
-    const { id } = suspectingPlayerNode.next.value;
     do {
+        const { id } = playerNode.value;
         if (alibi?.from === id) {
             const { from, card } = alibi;
             if (card) {
@@ -68,7 +68,8 @@ export const getNewDeckFromSuspicion = (currentDeck: Deck, suspicion: Suspicion,
             deck[suspectedWeapon].notHolder.add(id);
             deck[suspectedRoom].notHolder.add(id);
         }
-    } while (id !== suspectingPlayer)
+        playerNode = playerNode.next;
+    } while (playerNode.value.id !== suspectingPlayer)
 
     Object.keys(deck).forEach(key => {
         if (deck[key].notHolder.size === playerIds.length) {
@@ -137,17 +138,17 @@ export const getNewDeck = (): Deck => {
     return deck;
 };
 
-export const getNewAssertions = (updatedDeck: Deck, initialDeck: Deck): Assertion[] => {
+export const getNewAssertions = (updatedDeck: Deck, initialDeck: Deck, suspicionIndex: number): Assertion[] => {
     const assertions: Assertion[] = [];
     Object.keys(updatedDeck).forEach(key => {
-        assertions.push(...getNewHolderAssertions(key, updatedDeck[key].holder, initialDeck[key].holder));
-        assertions.push(...getNewNotHolderAssertions(key, updatedDeck[key].notHolder, initialDeck[key].notHolder));
+        assertions.push(...getNewHolderAssertions(key, suspicionIndex, updatedDeck[key].holder, initialDeck[key].holder));
+        assertions.push(...getNewNotHolderAssertions(key, suspicionIndex, updatedDeck[key].notHolder, initialDeck[key].notHolder));
     });
 
     return assertions;
 };
 
-export const getNewHolderAssertions = (card: string, updatedHolder?: number, initialHolder?: number): Assertion[] => {
+export const getNewHolderAssertions = (card: string, suspicionIndex: number, updatedHolder?: number, initialHolder?: number): Assertion[] => {
     const updatedHolderIdentified = !isNaN(updatedHolder);
     const initialHolderIdentified = !isNaN(initialHolder);
 
@@ -157,14 +158,14 @@ export const getNewHolderAssertions = (card: string, updatedHolder?: number, ini
 
     if (updatedHolderIdentified && !initialHolderIdentified) {
         return [
-            { playerId: updatedHolder, assertionType: AssertionType.Has, card }
+            { playerId: updatedHolder, assertionType: AssertionType.Has, card, suspicionIndex }
         ]
     }
 
     return [];
 };
 
-export const getNewNotHolderAssertions = (card: string, updatedNotHolders: Set<number>, initialNotHolders: Set<number>): Assertion[] => {
+export const getNewNotHolderAssertions = (card: string, suspicionIndex: number, updatedNotHolders: Set<number>, initialNotHolders: Set<number>): Assertion[] => {
     if (!updatedContainsInitial(updatedNotHolders, initialNotHolders)) {
         throwError('integrityCheck');
     }
@@ -172,7 +173,7 @@ export const getNewNotHolderAssertions = (card: string, updatedNotHolders: Set<n
     const assertions: Assertion[] = [];
     for (const id of [...updatedNotHolders]) {
         if (!initialNotHolders.has(id)) {
-            assertions.push({ playerId: id, assertionType: AssertionType.DoesNotHave, card })
+            assertions.push({ playerId: id, assertionType: AssertionType.DoesNotHave, card, suspicionIndex })
         }
     }
 

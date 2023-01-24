@@ -104,6 +104,7 @@ export const getGame = (players: Player[], cards: Set<string>): Game => {
         assertionType: cards.has(s)?  AssertionType.Has: AssertionType.DoesNotHave,
         card: s,
         playerId: 0,
+        suspicionIndex: -1
     })
 
     const assertions: Assertion[] = [
@@ -112,7 +113,17 @@ export const getGame = (players: Player[], cards: Set<string>): Game => {
         ...DECK.roomCards.map(s => getAssertion(s))
     ];
 
-    cards.forEach(s => assertions.push({ playerId: 0, assertionType: AssertionType.Has, card: s}));
+    const otherPlayers = players.filter(s => s.id !== 0);
+    [...cards].forEach(card => {
+        const otherPlayerAssertions = otherPlayers.map(s => ({
+            assertionType: AssertionType.DoesNotHave,
+            card,
+            playerId: s.id,
+            suspicionIndex: -1
+        }));
+
+        assertions.push(...otherPlayerAssertions);
+    });
 
     return {
         assertions,

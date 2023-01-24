@@ -37,4 +37,5 @@ export interface Assertion {
     assertionType: AssertionType;
     card: string;
     playerId: number;
+    suspicionIndex: number;
 }
