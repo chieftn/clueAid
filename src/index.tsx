@@ -1,16 +1,10 @@
-import './styles/main.scss';
 import * as React from "react";
-import * as ReactDOM from "react-dom";
-import {App} from "./components/shared/App";
-import {HashRouter} from "react-router-dom";
-import { Provider } from 'react-redux';
-import store from './redux/store';
+import { createRoot } from "react-dom/client";
+import { initializeIcons } from '@fluentui/react';
+import { App } from './app';
+import './index.css';
 
-ReactDOM.render(
-    <Provider store={store}>
-        <HashRouter>
-            <App/>
-        </HashRouter>
-    </Provider>,
-    document.getElementById("example")
-);
+initializeIcons();
+const container = document.getElementById('reactTarget');
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+root.render(<App/>);

@@ -1,9 +1,10 @@
 {
     "compilerOptions": {
+        "moduleResolution": "node",
         "outDir": "./dist/",
         "sourceMap": true,
         "noImplicitAny": true,
-        "module": "commonjs",
+        "module": "es6",
         "target": "es6",
         "jsx": "react"
     },

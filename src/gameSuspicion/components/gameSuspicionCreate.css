@@ -1,0 +1,16 @@
+.form {
+    max-width: 500px;
+}
+
+.form-element {
+    margin-bottom: 10px;
+}
+
+.commands {
+    margin-top: 20px;
+    display: flex;
+}
+
+.command {
+    margin-right: 10px;
+}

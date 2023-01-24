@@ -1,0 +1,15 @@
+.field {
+    height: 100%;
+    text-align: center;
+    color: white;
+    text-overflow: ellipsis;
+    width: 70px;
+}
+
+.has-card {
+    background-color: green;
+}
+
+.does-not-have-card {
+    background-color: gray;
+}
