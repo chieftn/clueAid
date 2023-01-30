@@ -8,19 +8,19 @@ import { CardSelection } from './cardToggles';
 import { NameEntries } from './nameEntries';
 import { SubmitStatus } from './submitStatus';
 import { SubmitButton } from './submitButton';
-import { PageTitle } from '../../shared/components/pageTitle';
-import './gameCreate.scss';
+import { usePageTitle } from '../../shared/hooks/useBanner';
+import './gameCreate.css';
 
 export const GameCreate: React.FC = () => {
     const [state, dispatch] = useGameCreateState();
     const { gameCreateMode } = state;
+    usePageTitle('New game');
 
-   return (
-        <>
+    return (
+        <div>
             <GameInProgressWarning/>
             <GameCreateStateContext.Provider value={[state,dispatch]}>
                 <div className="content">
-                    <PageTitle title="Start a game"/>
                     <NameEntries/>
                     <CardSelection/>
                     <SubmitStatus/>
@@ -28,6 +28,6 @@ export const GameCreate: React.FC = () => {
                     {gameCreateMode !== GameCreateMode.idle && <Overlay/>}
                 </div>
             </GameCreateStateContext.Provider>
-        </>
+        </div>
     );
 };
