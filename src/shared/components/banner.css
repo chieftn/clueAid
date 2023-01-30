@@ -1,5 +1,5 @@
 .banner {
-    background-color: #4f6bed;
+    background-color: var(--blue);
     display: flex;
     align-items: center;
     min-height: 40px;
