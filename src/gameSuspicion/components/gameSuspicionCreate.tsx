@@ -4,7 +4,7 @@ import { useGameSuspicionCreateState } from '../hooks/useGameSuspicionCreateStat
 import { GameSuspicionCreateMode } from '../state';
 import { initializeAction } from '../actions';
 import { GameNotStartedWarning } from '../../shared/components/gameNotStartedWarning';
-import { PageTitle } from '../../shared/components/pageTitle';
+import { usePageTitle } from '../../shared/hooks/useBanner';
 import { AlibiCard } from './alibiCard';
 import { AlibiFrom } from './alibiFrom';
 import { SuspectedCharacter} from './suspectedCharacter';
@@ -19,6 +19,7 @@ export const GameSuspicionCreate: React.FC = () => {
     const [{ game }] = useGameStateContext();
     const [state, dispatch ] = useGameSuspicionCreateState();
     const { mode } = state;
+    usePageTitle('Add suspicion');
 
     React.useEffect(() => {
         if (game && mode === GameSuspicionCreateMode.uninitialized) {
@@ -32,7 +33,6 @@ export const GameSuspicionCreate: React.FC = () => {
 
     return (
         <div className="content form">
-            <PageTitle title="Add Suspicion" />
             {game &&
                 <GameSuspicionCreateStateContext.Provider value={[state, dispatch]}>
                     <SuspectingPlayer/>

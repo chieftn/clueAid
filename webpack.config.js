@@ -2,6 +2,7 @@ const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+    mode: 'production',
     entry: './src/index.tsx',
     module: {
         rules: [
@@ -41,7 +42,10 @@ module.exports = {
         historyApiFallback: true,
         static: path.join(__dirname, 'dist'),
         compress: true,
-        port: 3000
+        port: 3000,
+        client: {
+            overlay: false
+        }
     },
     plugins: [
         new htmlWebpackPlugin({

@@ -3,9 +3,11 @@ import { PrimaryButton } from '@fluentui/react';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '../constants';
 import './home.scss';
+import { usePageTitle } from '../hooks/useBanner';
 
 export const Home: React.FC = () => {
     const navigate = useNavigate();
+    usePageTitle('');
 
     const onGetStartedClick = () => {
         navigate(PATHS.CREATE);

@@ -3,7 +3,7 @@ import { PrimaryButton, Stack } from '@fluentui/react';
 import { useNavigate } from 'react-router-dom';
 import { GameNotStartedWarning } from '../../shared/components/gameNotStartedWarning';
 import { useGameStateContext } from '../hooks/useGameStateContext';
-import { PageTitle } from '../../shared/components/pageTitle';
+import { usePageTitle } from '../../shared/hooks/useBanner';
 import { GameStatusGrid } from './gameStatusGrid';
 import { GameError } from './gameError';
 // import { undoSuspicionAction } from '../actions';
@@ -13,6 +13,7 @@ import './gameStatus.css';
 export const GameStatus: React.FC = () => {
     const navigate = useNavigate();
     const [{ game }] = useGameStateContext();
+    usePageTitle('Status');
 
     const onAddSuspicionClick = () => {
         navigate(PATHS.SUSPICION);
@@ -26,7 +27,6 @@ export const GameStatus: React.FC = () => {
         <>
             <GameNotStartedWarning />
             <div className="content">
-                <PageTitle title="Game Status" />
                 {game &&
                     <Stack tokens={{childrenGap: 5}}>
                         <div>

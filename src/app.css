@@ -17,3 +17,17 @@
 .app > footer {
     grid-row: 3;
 }
+
+.myfade-enter {
+    transform: translate(300px, 0);
+}
+.myfade-enter.myfade-enter-active {
+    transform: translate(0, 0);
+    transition: transform 300ms ease;
+}
+.myfade-exit {
+    display: none;
+}
+.myfade-exit.fade-exit-active {
+    display: none;
+}
